@@ -383,7 +383,7 @@ Distinct instruction pipeline/type names represented in the dynamic stream.
 | --- | --- | --- |
 | `Name` | `VARCHAR(20)` | Instruction pipeline/type name from `InstrTypes`. |
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -441,7 +441,7 @@ analysis.
 | `UbAccessType` | `INTEGER` | Access category code: 1 SIMT read, 2 SIMT write, 3 SIMD read, or 4 SIMD write in the current enumeration. |
 | `SimtDataCache` | `BOOLEAN` | Flag identifying the SIMT data-cache path, encoded as 0 or 1. |
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -475,7 +475,7 @@ this is not pipeline busy time.
 | `TickStart` | not declared | Start of the recorded interval, in simulator ticks. |
 | `TickEnd` | not declared | End of the recorded interval, in simulator ticks. |
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -510,7 +510,7 @@ configured pipelines for AIC and three for AIV.
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `CoreTypeId` | `INTEGER` | Core component identifier; joins to `CoreTypes.CoreTypeId`. |
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -518,7 +518,7 @@ configured pipelines for AIC and three for AIV.
 
 This feature is not currently available. No supported result dataset is documented for it.
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -526,7 +526,7 @@ This feature is not currently available. No supported result dataset is document
 
 This feature is not currently available.
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -578,7 +578,7 @@ Mean pipeline utilization across recorded core IDs, grouped by queue name and co
 | `CoreName` | `VARCHAR(20)` | Core component name from `CoreTypes`. |
 | `Utilization` | not declared | Arithmetic mean of `PipesUtilization.PipeUtilization`, in percent. |
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1024,7 +1024,7 @@ decodes selected pre/post modes and retains defaults for unsupported legacy para
 | `DstUBMask` | `INTEGER` | Destination UB selection bitmask, with bit 0 for AIV0 and bit 1 for AIV1; currently written as 0 by this analyzer. |
 | `ProcessedBytes` | `INTEGER` | Output byte count from semantic parameters; defaults to 0 if absent. |
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1044,7 +1044,7 @@ and start/end ticks. The interval from `ExecInstrTickStart` to
 
 [Timeline generation](../../../npusim/prof/src/frontend/tracing/chrome_tracing_default.py).
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1154,7 +1154,7 @@ view construction.
 | `LdStIPC` | not declared | Load/store instruction IPC component, in instructions per cycle. |
 | `BranchIPC` | not declared | SIMT branch instruction IPC component, in instructions per cycle. |
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1189,7 +1189,7 @@ based on semantic `processed_bytes`, and `ProcessedElements` is left NULL.
 | `ProcessedElements` | `INTEGER` | Processed element count when available; currently NULL in this analyzer. |
 | `VectorUtilization` | `REAL` | `ProcessedBytes / 256 * 100` in the current analyzer, expressed as a percentage of the default 256-byte vector length. |
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1250,7 +1250,7 @@ Per-instruction UB read/write bank-conflict results.
 | `ReadConflicts` | `INTEGER` | Recorded or derived UB bank-conflict count for reads. |
 | `WriteConflicts` | `INTEGER` | Recorded or derived UB bank-conflict count for writes. |
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1311,7 +1311,7 @@ JSON stall-count aggregates for each static instruction address.
 | `SourceInstrAddr` | `INTEGER` | Static instruction address in bytes from the recorded execution stream; available even when source/disassembly tables are empty. |
 | `StallsJson` | `TEXT` | JSON object mapping SIMD stall reason names to aggregated recorded counts. |
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1431,7 +1431,7 @@ BaseAddress + (CellRow * Width + CellCol) * CellSize
 For full coverage-counting and buffer-ownership rules, see the
 [memory heatmap format](../../../npusim/prof/docs/memory_heatmap_format.md).
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1443,7 +1443,7 @@ CUBE pipeline busy time is represented by the CUBE rows in `PipesUtilization`.
 
 [Pipeline utilization analysis](../../../npusim/prof/src/backend/analyzers/david/pipe_utilization_analyzer.py).
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1515,7 +1515,7 @@ core/component span, not the sum of all gap durations.
 | `TopBottleneck` | `TEXT` | Gap category with the greatest summed gap duration, when gaps exist. |
 | `SubtypeSummary` | `TEXT` | Comma-separated `subtype:count` entries sorted by descending count; this field is text, not JSON. |
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1523,7 +1523,7 @@ core/component span, not the sum of all gap durations.
 
 This feature is not available in the current workflow without an object file. The register-liveness analyzer is not registered; `LiveRegisters` is not populated.
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1531,7 +1531,7 @@ This feature is not available in the current workflow without an object file. Th
 
 This feature is not available in the current workflow without source/disassembly data. A separately enabled call-stack analyzer can create a synthetic root and zero-valued root metrics, but this does not provide a usable call tree.
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1565,7 +1565,7 @@ Collector-provided cross-instruction UB bank-conflict records.
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `CoreTypeId` | `INTEGER` | Core component identifier; joins to `CoreTypes.CoreTypeId`. |
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1573,7 +1573,7 @@ Collector-provided cross-instruction UB bank-conflict records.
 
 This feature is not currently available. Scalar IPC calculations and instruction-cache events are separate datasets and should not be presented as scalar sampling.
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1650,7 +1650,7 @@ Kernel hint messages with their rule ID; grouped by message ID by the current SQ
 | `HintTypeId` | `INTEGER` | Hint rule identifier; joins to `HintTypes.HintTypeId`. |
 | `HintMsgText` | `VARCHAR(500)` | Human-readable diagnostic or optimization suggestion. |
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1671,7 +1671,7 @@ result table is created.
 
 [Implementation](../../../npusim/prof/src/backend/hints/small_grid_hint.py).
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1679,7 +1679,7 @@ result table is created.
 
 This hint is not currently available. No dedicated launch-overhead result dataset is documented.
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1702,7 +1702,7 @@ created. This calculation is independent of source/debug mappings.
 
 [Implementation](../../../npusim/prof/src/backend/hints/tail_effect_inter_core_hint.py).
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1710,7 +1710,7 @@ created. This calculation is independent of source/debug mappings.
 
 This hint is not available in the current workflow. DMA parameter and byte-count data remain available under Instruction Execution Timeline, but their presence does not produce this instruction/source hint without the missing aggregate inputs.
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1718,7 +1718,7 @@ This hint is not available in the current workflow. DMA parameter and byte-count
 
 This hint is not available in the current workflow. Available memory access records should not be presented as an emitted GM-access optimization finding.
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1726,7 +1726,7 @@ This hint is not available in the current workflow. Available memory access reco
 
 This hint is not available in the current workflow. Bank-conflict data and an emitted performance hint are separate results.
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1734,7 +1734,7 @@ This hint is not available in the current workflow. Bank-conflict data and an em
 
 This hint is not available in the current workflow. The related conflict tables are described under SIMD Bank Conflicts (Scatter/Gather).
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1742,7 +1742,7 @@ This hint is not available in the current workflow. The related conflict tables 
 
 This hint is not available in the current workflow. VectorUtilizations can contain data, but the instruction/source rule has no AsmMetrics rows to inspect.
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1761,7 +1761,7 @@ tables and works without `AsmMetrics`. There is no dedicated low-IPC table.
 
 [Implementation](../../../npusim/prof/src/backend/hints/low_vec_ipc_hint.py).
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1969,7 +1969,7 @@ pressure, execution-queue imbalance, UB bandwidth, and gather/scatter stalls. Ex
 [PMU metric definitions](../../../npusim/prof/src/backend/analyzers/vf_pmu/metrics.py)
 and the [PMU hint helpers](../../../npusim/prof/src/backend/hints/vf_pmu_hint_utils.py).
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1977,7 +1977,7 @@ and the [PMU hint helpers](../../../npusim/prof/src/backend/hints/vf_pmu_hint_ut
 
 This hint is not currently available. No supported result dataset is documented for this rule.
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1985,7 +1985,7 @@ This hint is not currently available. No supported result dataset is documented 
 
 This hint is not currently available as the listed feature. CUBE pipeline metrics and MmadParams do not by themselves constitute a Low MMAD Utilization finding.
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
@@ -1993,6 +1993,6 @@ This hint is not currently available as the listed feature. CUBE pipeline metric
 
 This hint is not currently available. An existing scalar IPC value or windowed IPC table is not an emitted Low Scalar IPC hint.
 
-#### UI and Screenshots
+**UI and Screenshots**
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
