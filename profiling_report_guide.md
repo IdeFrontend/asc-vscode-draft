@@ -65,7 +65,7 @@ These markers describe the features, rather than completion of their UI document
   - [2.3.1. SIMD UB Bank Conflicts 🔴](#231-simd-ub-bank-conflicts-)
   - [3.1.1. Low SIMD Utilization 🔴](#311-low-simd-utilization-)
   - [3.1.2. Low SIMD IPC ✅](#312-low-simd-ipc-)
-  - [3.1.3. VF PMU Based Hints 🟡](#313-vf-pmu-based-hints-)
+  - [3.1.3. VF PMU Based Hints ✅](#313-vf-pmu-based-hints-)
   - [3.1.4. Non-Fused FP Instructions 🔴](#314-non-fused-fp-instructions-)
   - [3.3.1. Low MMAD Utilization 🔴](#331-low-mmad-utilization-)
   - [3.4.1. Low Scalar IPC 🔴](#341-low-scalar-ipc-)
@@ -1765,10 +1765,10 @@ tables and works without `AsmMetrics`. There is no dedicated low-IPC table.
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 3.1.3. VF PMU Based Hints 🟡
+### 3.1.3. VF PMU Based Hints ✅
 
-VF PMU hints use synthetic counters computed from collected VF PMU snapshots.
-Enable synthetic analysis with `--simd-perf`; the collection must already contain
+This feature covers kernel-level hints based on synthetic counters computed
+from collected VF PMU snapshots. Enable synthetic analysis with `--simd-perf`; the collection must already contain
 the required raw PMU counters. Registering a hint rule does not enable collection
 or run that analysis automatically.
 
@@ -1783,13 +1783,12 @@ evaluated as zero; a nonpositive optimal-slot denominator omits top-down metrics
 Hardware and instruction decompositions of the same parent are alternative
 breakdowns, not contributions to add together. Some residuals can be negative.
 
-Kernel-level PMU findings use the shared hint tables. Per-VF rules can first map
-VF IDs to dynamic marker PCs. A PC-targeted finding still requires the instruction
-hint map built from `AsmMetrics`, which is empty in this workflow. A failed PC
-mapping can instead produce a kernel-level fallback for the relevant rules.
-Thus PMU data availability does not guarantee every possible PMU hint.
+Findings are attached to the kernel through `HintMessages` and `KernelHints`,
+and their readable form is available in `KernelHintsView`. The subcore and
+per-VF tables below describe the scope of the underlying PMU measurements;
+the hints covered by this feature are kernel-level.
 
-**Related tables:** [VfPMUMetrics](#table-vfpmumetrics), [VfPMUValues](#table-vfpmuvalues), [VfPMUSummary](#table-vfpmusummary), [VfPMUViewPerSubcore](#table-vfpmuviewpersubcore), [VfPMUDeltasViewPerVf](#table-vfpmudeltasviewpervf), [VfPMUSynthTypes](#table-vfpmusynthtypes), [VfPMUSynthValuesPerSubcore](#table-vfpmusynthvaluespersubcore), [VfPMUSynthValuesPerVf](#table-vfpmusynthvaluespervf), [VfPMUSynthViewPerSubcore](#table-vfpmusynthviewpersubcore), [VfPMUSynthViewPerVf](#table-vfpmusynthviewpervf), [ExecutedInstructions](#table-executedinstructions), [HintTypes](#table-hinttypes), [HintMessages](#table-hintmessages), [KernelHints](#table-kernelhints), [KernelHintsView](#table-kernelhintsview).
+**Related tables:** [VfPMUMetrics](#table-vfpmumetrics), [VfPMUValues](#table-vfpmuvalues), [VfPMUSummary](#table-vfpmusummary), [VfPMUViewPerSubcore](#table-vfpmuviewpersubcore), [VfPMUDeltasViewPerVf](#table-vfpmudeltasviewpervf), [VfPMUSynthTypes](#table-vfpmusynthtypes), [VfPMUSynthValuesPerSubcore](#table-vfpmusynthvaluespersubcore), [VfPMUSynthValuesPerVf](#table-vfpmusynthvaluespervf), [VfPMUSynthViewPerSubcore](#table-vfpmusynthviewpersubcore), [VfPMUSynthViewPerVf](#table-vfpmusynthviewpervf), [HintTypes](#table-hinttypes), [HintMessages](#table-hintmessages), [KernelHints](#table-kernelhints), [KernelHintsView](#table-kernelhintsview).
 
 [Implementation](../../../npusim/prof/src/backend/hints/vf_pmu_hint_utils.py).
 
@@ -1966,8 +1965,7 @@ remain in `VfPMUSynthTypes`.
 
 The rule families cover bottleneck classification, register pressure, fetch
 stalls, dependencies, memory barriers, vector functional-unit conflicts, queue
-pressure, execution-queue imbalance, UB bandwidth, gather/scatter stalls, and
-per-VF outliers. Exact formulas and thresholds are maintained in the
+pressure, execution-queue imbalance, UB bandwidth, and gather/scatter stalls. Exact formulas and thresholds are maintained in the
 [PMU metric definitions](../../../npusim/prof/src/backend/analyzers/vf_pmu/metrics.py)
 and the [PMU hint helpers](../../../npusim/prof/src/backend/hints/vf_pmu_hint_utils.py).
 
