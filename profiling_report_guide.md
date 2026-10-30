@@ -1,4 +1,4 @@
-# NPU profiling report guide
+# NPU Profiling Report Guide
 
 This guide describes NPUSim profiling report features, their metrics, and the
 underlying `.npu-rep` tables in the current Ascend950 workflow without an object
@@ -18,13 +18,13 @@ references. Add screenshots under `figures/` alongside this document and insert
 them into the corresponding section. UI templates are also reserved for features
 that are not currently available.
 
-- [NPU report format](#npu-report-format)
+- [NPU Report Format](#npu-report-format)
 - [General Features](#general-features)
 - [Performance Hints](#performance-hints)
 
-## NPU report format
+## NPU Report Format
 
-### Generate and locate an archive
+### Generate and Locate an Archive
 
 Generate reports from an existing simulation record:
 
@@ -51,9 +51,9 @@ report directory, it writes a CSV-only archive, with its manifest, directly unde
 the report output directory. Export failures produce warnings and do not fail
 the report run; check those warnings if an expected archive is missing.
 
-### Understand the payload
+### Understand the Payload
 
-| Payload | Inclusion rule | Purpose |
+| Payload | Inclusion Rule | Purpose |
 | --- | --- | --- |
 | `manifest.json` | Written by the database exporter | Database identity, export time, object inventory, columns, row counts, and query errors |
 | `<table_name>.csv` | Written for each nonempty, successfully queried user table | Collected events, dictionaries, metadata, and analysis results |
@@ -99,7 +99,7 @@ logs, the kernel executable, HTML reports, or dashboard HTML/JavaScript/CSS.
 This document covers the current workflow without an object file. Source
 correlation and call-tree datasets are unavailable in this workflow.
 
-### Read the manifest and CSV files
+### Read the Manifest and CSV Files
 
 The manifest contains:
 
@@ -129,7 +129,7 @@ and SQL `NULL` cannot be distinguished after export. Use a CSV parser, especiall
 for columns containing JSON or instruction parameters, and do not assume a
 stable row order: the export query has no `ORDER BY`.
 
-### Read the binary container
+### Read the Binary Container
 
 The `.npu-rep` file is a custom binary container. Its layout is a header,
 an array of file descriptors, and concatenated file payloads. Integer fields are
@@ -137,7 +137,7 @@ little-endian, with no alignment padding.
 
 The 36-byte header uses Python struct format `<8sIHHIIIQ`:
 
-| Field | Size in bytes | Value or meaning |
+| Field | Size in Bytes | Value or Meaning |
 | --- | --- | --- |
 | `magic` | 8 | ASCII `npu-rep` followed by a zero byte |
 | `version` | 4 | `0x00010000`; major, minor, and patch encoded as `major << 16`, `minor << 8`, and `patch` |
@@ -150,7 +150,7 @@ The 36-byte header uses Python struct format `<8sIHHIIIQ`:
 
 Each 160-byte descriptor uses struct format `<8s128sHHIQQ`:
 
-| Field | Size in bytes | Value or meaning |
+| Field | Size in Bytes | Value or Meaning |
 | --- | --- | --- |
 | `magic` | 8 | Same magic as the header |
 | `fileName` | 128 | Basename, at most 127 encoded bytes, padded with zero bytes |
@@ -205,7 +205,7 @@ One attribute/value record per kernel metadata item. Common attributes include `
 `scalar_ipc`, `helper_version`, and `contract_version`. Values have attribute-specific units and may
 be stored as text.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `KernelInfoAttr` | `VARCHAR(20)` | Metadata attribute name, such as `exec_time_ticks` or `frequency_ghz`. |
 | `KernelInfoVal` | not declared | Value for the named attribute; parse according to that attribute, rather than assuming all rows have one numeric type. |
@@ -218,7 +218,7 @@ Database table.
 
 Core component dictionary. Use this table to resolve numeric IDs rather than hardcoding a mapping.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `CoreTypeId` | `INTEGER` | Numeric core component identifier. |
 | `CoreTypeName` | `VARCHAR(20)` | Readable core component name. |
@@ -232,7 +232,7 @@ Database table.
 Instruction pipeline/type dictionary. Use this table to resolve numeric IDs rather than hardcoding a
 mapping.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `InstrTypeId` | `INTEGER` | Numeric instruction pipeline/type identifier. |
 | `InstrTypeName` | `VARCHAR(20)` | Readable instruction pipeline/type name. |
@@ -246,7 +246,7 @@ Database table.
 Instruction queue/group dictionary. Use this table to resolve numeric IDs rather than hardcoding a
 mapping.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `InstrQueueTypeId` | `INTEGER` | Numeric instruction queue/group identifier. |
 | `InstrQueueTypeName` | `VARCHAR(20)` | Readable instruction queue/group name. |
@@ -259,7 +259,7 @@ Database table.
 
 Completion status for registered analyses.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `AnalysisName` | `VARCHAR(70)` | Internal analysis identifier. |
 | `AnalysisPassed` | `BOOLEAN` | 1 when the analysis completed successfully, 0 when it did not; not a kernel performance assessment. |
@@ -277,7 +277,7 @@ Database view exported as CSV.
 
 Instruction histogram grouped by pipeline/type name.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `Type` | `VARCHAR(20)` | Instruction type/pipeline name from `InstrTypes`. |
 | `Count` | not declared | Number of dynamic instructions in this group. |
@@ -290,7 +290,7 @@ Database view exported as CSV.
 
 Instruction histogram grouped by pipeline/type name.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `Type` | `VARCHAR(20)` | Instruction type/pipeline name from `InstrTypes`. |
 | `TickCount` | not declared | Sum of instruction durations in this group, in simulator ticks. |
@@ -303,7 +303,7 @@ Database view exported as CSV.
 
 Instruction histogram grouped by recorded mnemonic.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `Name` | `VARCHAR(100)` | Instruction mnemonic from `ExecutedInstructions`. |
 | `Count` | not declared | Number of dynamic instructions in this group. |
@@ -316,7 +316,7 @@ Database view exported as CSV.
 
 Instruction histogram grouped by recorded mnemonic.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `Name` | `VARCHAR(100)` | Instruction mnemonic from `ExecutedInstructions`. |
 | `TickCount` | not declared | Sum of instruction durations in this group, in simulator ticks. |
@@ -329,7 +329,7 @@ Database view exported as CSV.
 
 Distinct instruction pipeline/type names represented in the dynamic stream.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `Name` | `VARCHAR(20)` | Instruction pipeline/type name from `InstrTypes`. |
 
@@ -338,7 +338,7 @@ Distinct instruction pipeline/type names represented in the dynamic stream.
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -377,7 +377,7 @@ Database table.
 Named metrics calculated for architecture-level analysis, including path throughput, transaction
 counts, and selected ratios. The metric name determines the unit of the value.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ArchDiagramId` | `INTEGER` | Identifier of this metric row. |
 | `ArchDiagramParameterName` | `VARCHAR(20)` | Metric name; path suffixes include `_gbs` for aggregate rate, `_cnt` for transaction count, and `_ratio` for the path's transaction-normalized rate. Other named ratios have their own definitions. |
@@ -392,7 +392,7 @@ Database table.
 Collector-provided per-instruction UB traffic statistics, used for vector/shared-memory bandwidth
 analysis.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `ProcessedBytes` | `INTEGER` | Number of bytes processed by the instruction according to the corresponding analysis. |
@@ -404,7 +404,7 @@ analysis.
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -434,7 +434,7 @@ Database view exported as CSV.
 One first-to-last recorded instruction span per core/component. Gaps inside the span are included;
 this is not pipeline busy time.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `CoreTypeId` | `INTEGER` | Core component identifier; joins to `CoreTypes.CoreTypeId`. |
@@ -446,7 +446,7 @@ this is not pipeline busy time.
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -477,7 +477,7 @@ Database table.
 Activity state changes for a core/component. In the Ascend950 analyzer, the denominator is four
 configured pipelines for AIC and three for AIV.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `Tick` | `INTEGER` | Simulator tick at which this event or state is recorded. |
 | `Util` | `REAL` | Fraction of configured pipeline types simultaneously active at this tick; not queue depth or a percentage. |
@@ -489,7 +489,7 @@ configured pipelines for AIC and three for AIV.
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -505,7 +505,7 @@ This feature is not currently available. No supported result dataset is document
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -521,7 +521,7 @@ This feature is not currently available.
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -555,7 +555,7 @@ Database table.
 One aggregate per core, core component, and queue grouping. Selected instruction intervals are
 merged before dividing their union length by kernel elapsed ticks.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `CoreTypeId` | `INTEGER` | Core component identifier; joins to `CoreTypes.CoreTypeId`. |
@@ -570,7 +570,7 @@ Database view exported as CSV.
 
 Mean pipeline utilization across recorded core IDs, grouped by queue name and core component type.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `PipeName` | `VARCHAR(20)` | Queue/group name from `InstrQueueTypes`. |
 | `CoreName` | `VARCHAR(20)` | Core component name from `CoreTypes`. |
@@ -581,7 +581,7 @@ Mean pipeline utilization across recorded core IDs, grouped by queue name and co
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -625,7 +625,7 @@ One recorded dynamic instruction execution per row. This is the central join tar
 instruction-level analysis. The exclusion/classification fields below are collector-provided
 metadata, rather than performance measurements.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Identifier of this dynamic instruction execution; referenced by per-instruction analysis tables. |
 | `SourceInstrAddr` | `INTEGER` | Static instruction address in bytes from the recorded execution stream; available even when source/disassembly tables are empty. |
@@ -653,7 +653,7 @@ Database table.
 Recorded dispatch timing for a dynamic instruction. Execution start/end remain in
 `ExecutedInstructions`.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `DispatchTimeTick` | `INTEGER` | Tick when the instruction is dispatched into its pipeline queue. |
@@ -666,7 +666,7 @@ Database table.
 
 Assigns a subqueue stage to an execution record for supported pipelines.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `SubQueueType` | `INTEGER` | Subqueue stage code: 1 EXEC, 2 FLAG, or 3 PUSH_PB in the current analyzer enumeration. |
@@ -680,7 +680,7 @@ Database table.
 Queue-depth state changes for each core/component and instruction pipeline, derived from dispatch,
 start, and retire events.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `Tick` | `INTEGER` | Simulator tick at which this event or state is recorded. |
 | `Util` | `REAL` | Number of instructions currently in the issue queue after this state transition; not a utilization percentage. |
@@ -697,7 +697,7 @@ Database table.
 Queue-depth state changes for each core/component and instruction pipeline, derived from dispatch,
 start, and retire events.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `Tick` | `INTEGER` | Simulator tick at which this event or state is recorded. |
 | `Util` | `REAL` | Number of instructions currently in the execution queue after this state transition; not a utilization percentage. |
@@ -714,7 +714,7 @@ Database table.
 Endpoints of reconstructed synchronization flows. Pair entries by `EventId` within the relevant
 context; `ExecInstrId` identifies the endpoint instruction.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `EventId` | `INTEGER` | Reconstructed flow identifier shared by the flow endpoints; not a reference to another event table's primary key. |
@@ -730,7 +730,7 @@ Database table.
 
 Name dictionary for reconstructed execution regions.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `RegionNameId` | `INTEGER` | Region name identifier; joins to `RegionNames.RegionNameId`. |
 | `RegionName` | `VARCHAR(20)` | Region label, such as a VF or marked code-region name. |
@@ -746,7 +746,7 @@ instruction trace. Rows are produced only when matching region markers are
 present. Scalar DFX and SIMD custom-region analysis work without an object file;
 SIMT custom-region analysis is not enabled in the current workflow.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `RegionNameId` | `INTEGER` | Region name identifier; joins to `RegionNames.RegionNameId`. |
 | `RegionStart` | `INTEGER` | Region start tick. |
@@ -766,7 +766,7 @@ Database table.
 Collector-provided queue-full intervals associated with an instruction. These events are distinct
 from aggregated queue-full stall counters.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `EventId` | `INTEGER` | Identifier of the event row within this table. |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
@@ -784,7 +784,7 @@ Database table.
 Recorded instruction-cache access events. The cache-event type distinguishes scalar and vector fetch
 contexts.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ICacheEventId` | `INTEGER` | Identifier of this instruction-cache event. |
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
@@ -803,7 +803,7 @@ Database table.
 
 Instruction-cache refill intervals used by the summary and trace reports.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `EventId` | `INTEGER` | Identifier of the event row within this table. |
 | `SourceInstrAddr` | `INTEGER` | Static instruction address in bytes from the recorded execution stream; available even when source/disassembly tables are empty. |
@@ -822,7 +822,7 @@ Database table.
 
 Collector-provided special-purpose register writes at a core/component tick.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `CoreTypeId` | `INTEGER` | Core component identifier; joins to `CoreTypes.CoreTypeId`. |
@@ -838,7 +838,7 @@ Database table.
 
 Special-purpose register values associated with dynamic instructions by register-state analysis.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `SprName` | `VARCHAR(20)` | Special-purpose register name. |
@@ -852,7 +852,7 @@ Database table.
 
 Coverage of execution units for each static instruction address.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `SourceInstrAddr` | `INTEGER` | Static instruction address in bytes from the recorded execution stream; available even when source/disassembly tables are empty. |
 | `UniqueSubCoresUsed` | `INTEGER` | Number of distinct recorded core/component execution contexts that executed this address. |
@@ -880,7 +880,7 @@ Database table.
 Per-instruction transfer volume and rate. The current DMA analyzer records `CacheHit` by remembering
 previously seen source addresses, or destination addresses when a source is absent.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `ProcessedBytes` | `INTEGER` | Number of bytes processed by the instruction according to the corresponding analysis. |
@@ -895,7 +895,7 @@ Database table.
 
 Burst and stride parameters extracted from supported simple DMA instructions.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `BurstLength` | `INTEGER` | Burst length parameter from `ExtendParams.burst_len`, in the source instruction's units. |
@@ -912,7 +912,7 @@ Database table.
 
 Dimensions for supported multi-dimensional ND/DN-to-NZ DMA instructions.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `N` | `INTEGER` | N dimension parameter copied from `ExtendParams.n`. |
@@ -926,7 +926,7 @@ Database table.
 
 Starting coordinates and step parameters for supported 2D load instructions.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `MStartPosition` | `INTEGER` | Starting position in the M dimension from `m_start_pos`. |
@@ -942,7 +942,7 @@ Database table.
 
 Dimensions and destination descriptor for supported 3D load instructions.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `MStep` | `INTEGER` | M-dimension step/extent parameter from `m_step`, in instruction-defined units. |
@@ -958,7 +958,7 @@ Database table.
 Loop and padding parameters for supported ND DMA instructions. Values are instruction parameters
 rather than elapsed-time metrics.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `Loop0Size` | `INTEGER` | Size of loop dimension 0, copied from `ExtendParams.loop0_size`. |
@@ -978,7 +978,7 @@ Database table.
 Per-MMAD/MMAD_MX matrix parameters. The current Ascend950 analyzer populates dimensions, data types,
 and byte counts from `ExtendParams`; several other columns are retained as defaults.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `M` | `INTEGER` | M dimension of the matrix operation. |
@@ -1009,7 +1009,7 @@ Database table.
 Per-fixpipe dimensions, conversion modes, and transfer volume. The current Ascend950 analyzer
 decodes selected pre/post modes and retains defaults for unsupported legacy parameters.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `N` | `INTEGER` | N dimension of the fixpipe operation. |
@@ -1035,7 +1035,7 @@ decodes selected pre/post modes and retains defaults for unsupported legacy para
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1063,7 +1063,7 @@ and start/end ticks. The interval from `ExecInstrTickStart` to
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1101,7 +1101,7 @@ Database table.
 IPC components attached to each SIMD VF call. The inner-instruction table associates contextual IPC
 with that instruction; it does not represent extra instruction executions.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `ScalarIPC` | `REAL` | Scalar instruction IPC component, in instructions per cycle. |
@@ -1117,7 +1117,7 @@ Database table.
 IPC components attached to each instruction inside a SIMD VF. The inner-instruction table associates
 contextual IPC with that instruction; it does not represent extra instruction executions.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `ScalarIPC` | `REAL` | Scalar instruction IPC component, in instructions per cycle. |
@@ -1132,7 +1132,7 @@ Database table.
 
 Windowed SIMD IPC components, associated with an inner instruction execution.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `WindowStartTick` | `INTEGER` | Start tick of the IPC analysis window. |
@@ -1149,7 +1149,7 @@ Database view exported as CSV.
 Windowed SIMD IPC with core ID and component resolved from `ExecutedInstructions`. The view omits
 the instruction ID from its output.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `CoreTypeId` | `INTEGER` | Core component identifier; joins to `CoreTypes.CoreTypeId`. |
@@ -1168,7 +1168,7 @@ Combined IPC view over scalar, SIMD call/inner, and SIMT call/inner records usin
 Components not applicable to a contributing source are filled with 0.0; these zeros are part of the
 view construction.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `ScalarIPC` | `REAL` | Scalar instruction IPC component, in instructions per cycle. |
@@ -1181,7 +1181,7 @@ view construction.
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1212,7 +1212,7 @@ Database table.
 Processed vector volume for supported instructions. In the current analyzer, vector utilization is
 based on semantic `processed_bytes`, and `ProcessedElements` is left NULL.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `ProcessedBytes` | `INTEGER` | Number of bytes processed by the instruction according to the corresponding analysis. |
@@ -1224,7 +1224,7 @@ based on semantic `processed_bytes`, and `ProcessedElements` is left NULL.
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1254,7 +1254,7 @@ Database table.
 Collector-provided UB address records used by the shared-access pattern view. The spelling `Acesses`
 is the actual exported table name.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `AccessedAddress` | `INTEGER` | Accessed memory address in bytes within the recorded memory scope. |
@@ -1267,7 +1267,7 @@ Database view exported as CSV.
 
 UB address records joined with the mnemonic of their owning dynamic instruction.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `InstrName` | `VARCHAR(100)` | Recorded instruction mnemonic from `ExecutedInstructions.ExecInstrName`. |
@@ -1281,7 +1281,7 @@ Database table.
 
 Per-instruction UB read/write bank-conflict results.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `UBBankConflictId` | `INTEGER` | Identifier of this bank-conflict result row. |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
@@ -1293,7 +1293,7 @@ Per-instruction UB read/write bank-conflict results.
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1324,7 +1324,7 @@ Database table.
 
 Dictionary of recorded SIMD stall reason codes.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `StallReasonId` | `INTEGER` | Stall reason identifier used by `SIMDSamplingStats`. |
 | `StallReasonName` | `VARCHAR(20)` | Readable stall reason name. |
@@ -1338,7 +1338,7 @@ Database table.
 Recorded SIMD stall counters per dynamic instruction and reason; the sampling analyzer aggregates
 these by static address and source line.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `StallReasonId` | `INTEGER` | Reason identifier; joins to `SIMDStallReasonTypes.StallReasonId`. |
@@ -1352,7 +1352,7 @@ Database table.
 
 JSON stall-count aggregates for each static instruction address.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `SourceInstrAddr` | `INTEGER` | Static instruction address in bytes from the recorded execution stream; available even when source/disassembly tables are empty. |
 | `StallsJson` | `TEXT` | JSON object mapping SIMD stall reason names to aggregated recorded counts. |
@@ -1362,7 +1362,7 @@ JSON stall-count aggregates for each static instruction address.
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1408,7 +1408,7 @@ word. Older contract versions can omit `Size` and `Step`. In the current helper 
 IDs in this table contain only the low 32 bits, so a direct equality join to the full
 `ExecutedInstructions.ExecInstrId` is not sufficient for all records.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `AccessedAddress` | `INTEGER` | Accessed memory address in bytes within the recorded memory scope. |
 | `AccessMode` | `VARCHAR(1)` | Access direction, `R` for read or `W` for write. |
@@ -1428,7 +1428,7 @@ Database table.
 Buffer usage state over time, keyed by `(CoreId, Tick, MemoryType)`. This describes usage state,
 whereas heatmap cells aggregate spatial access coverage.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `Tick` | `INTEGER` | Simulator tick at which this event or state is recorded. |
@@ -1444,7 +1444,7 @@ Database table.
 One spatial grid per buffer instance, keyed by `(CoreId, CoreTypeId, MemoryType)`. The cell table
 references the same key.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `CoreId` | `INTEGER` | Core ID used for this memory view; the current single-chip helper memory scope uses 0. |
 | `CoreTypeId` | `INTEGER` | Component owning the represented buffer, resolved through `CoreTypes`; this can differ from the component issuing an access. |
@@ -1466,7 +1466,7 @@ Database table.
 One row per touched cell. Join to `MemoryHeatmapLayout` by core ID, owner component, and memory
 type. The full key additionally includes cell row and column.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `CoreId` | `INTEGER` | Core ID of the matching layout row. |
 | `CoreTypeId` | `INTEGER` | Buffer-owner component ID of the matching layout row. |
@@ -1490,7 +1490,7 @@ For full coverage-counting and buffer-ownership rules, see the
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1510,7 +1510,7 @@ CUBE pipeline busy time is represented by the CUBE rows in `PipesUtilization`.
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1549,7 +1549,7 @@ Database table.
 One inferred gap in the selected main pipeline per row. Gap explanations, optimization flags, and
 iteration attribution are analysis results, rather than raw stall-cause measurements.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `CoreTypeId` | `INTEGER` | Core component identifier; joins to `CoreTypes.CoreTypeId`. |
@@ -1575,7 +1575,7 @@ Database table.
 Gap aggregates per core/component and selected main pipeline. `TotalDurationUs` is the recorded
 core/component span, not the sum of all gap durations.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `CoreTypeId` | `INTEGER` | Core component identifier; joins to `CoreTypes.CoreTypeId`. |
@@ -1590,7 +1590,7 @@ core/component span, not the sum of all gap durations.
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1606,7 +1606,7 @@ This feature is not available in the current workflow without an object file. Th
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1622,7 +1622,7 @@ This feature is not available in the current workflow without source/disassembly
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1651,7 +1651,7 @@ Database table.
 
 Collector-provided cross-instruction UB bank-conflict records.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `ExecInstrId` | `INTEGER` | Dynamic instruction identifier; joins to `ExecutedInstructions.ExecInstrId`. |
 | `ConflictInstrs` | `VARCHAR(64)` | Collector-formatted text identifying conflicting instruction records; preserve the producer's ID representation. |
@@ -1664,7 +1664,7 @@ Collector-provided cross-instruction UB bank-conflict records.
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1680,7 +1680,7 @@ This feature is not currently available. Scalar IPC calculations and instruction
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1714,7 +1714,7 @@ Database table.
 
 Hint rule dictionary and execution status.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `HintTypeId` | `INTEGER` | Hint rule identifier; joins to `HintTypes.HintTypeId`. |
 | `HintTypeName` | `VARCHAR(70)` | Name of the diagnostic rule. |
@@ -1728,7 +1728,7 @@ Database table.
 
 Dictionary of human-readable diagnostic messages.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `HintMsgId` | `INTEGER` | Message identifier; joins to `HintMessages.HintMsgId`. |
 | `HintMsgText` | `VARCHAR(500)` | Human-readable diagnostic or optimization suggestion. |
@@ -1741,7 +1741,7 @@ Database table.
 
 Attaches a message and rule to the kernel as a whole.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `HintId` | `INTEGER` | Identifier of the hint attachment row within this table. |
 | `HintTypeId` | `INTEGER` | Hint rule identifier; joins to `HintTypes.HintTypeId`. |
@@ -1755,7 +1755,7 @@ Database view exported as CSV.
 
 Kernel hint messages with their rule ID; grouped by message ID by the current SQL.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `HintTypeId` | `INTEGER` | Hint rule identifier; joins to `HintTypes.HintTypeId`. |
 | `HintMsgText` | `VARCHAR(500)` | Human-readable diagnostic or optimization suggestion. |
@@ -1765,7 +1765,7 @@ Kernel hint messages with their rule ID; grouped by message ID by the current SQ
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1794,7 +1794,7 @@ result table is created.
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1810,7 +1810,7 @@ This hint is not currently available. No dedicated launch-overhead result datase
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1841,7 +1841,7 @@ created. This calculation is independent of source/debug mappings.
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1857,7 +1857,7 @@ This hint is not available in the current workflow. DMA parameter and byte-count
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1873,7 +1873,7 @@ This hint is not available in the current workflow. Available memory access reco
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1889,7 +1889,7 @@ This hint is not available in the current workflow. Bank-conflict data and an em
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1905,7 +1905,7 @@ This hint is not available in the current workflow. The related conflict tables 
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1921,7 +1921,7 @@ This hint is not available in the current workflow. VectorUtilizations can conta
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1948,7 +1948,7 @@ tables and works without `AsmMetrics`. There is no dedicated low-IPC table.
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -1991,7 +1991,7 @@ Database table.
 
 Raw VF PMU metric-name dictionary.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `MetricId` | `INTEGER` | Raw PMU metric identifier; joins to `VfPMUMetrics.MetricId`. |
 | `MetricName` | `VARCHAR(50)` | Raw PMU counter name from `VfPMUMetrics`. |
@@ -2005,7 +2005,7 @@ Database table.
 One cumulative raw metric snapshot per core/component, VF sequence ID, and metric ID. Do not sum
 snapshots across VF IDs to calculate total activity.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `CoreTypeId` | `INTEGER` | Core component identifier; joins to `CoreTypes.CoreTypeId`. |
@@ -2022,7 +2022,7 @@ Database table.
 Collector-provided tick totals for each VF PMU snapshot. The kernel/system distinction is defined by
 the producing PMU stream.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `CoreTypeId` | `INTEGER` | Core component identifier; joins to `CoreTypes.CoreTypeId`. |
@@ -2039,7 +2039,7 @@ Database view exported as CSV.
 Last cumulative snapshot per core/component, selected using the maximum VF ID for that
 core/component. Metric names are joined from `VfPMUMetrics`.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `CoreTypeId` | `INTEGER` | Core component identifier; joins to `CoreTypes.CoreTypeId`. |
@@ -2056,7 +2056,7 @@ Database view exported as CSV.
 Per-VF raw counter increments: current snapshot minus the preceding snapshot for the same
 core/component and metric; the first snapshot subtracts zero.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `CoreTypeId` | `INTEGER` | Core component identifier; joins to `CoreTypes.CoreTypeId`. |
@@ -2074,7 +2074,7 @@ Database table.
 Synthetic metric dictionary with parent hierarchy and persistence scope. A NULL parent is
 meaningful, and IDs are dictionary keys rather than values to compare across archives.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `SynthId` | `INTEGER` | Synthetic metric identifier; joins to `VfPMUSynthTypes.SynthId`. |
 | `SynthName` | `VARCHAR(64)` | Synthetic metric name, with the `syn_c_` prefix. |
@@ -2090,7 +2090,7 @@ Database table.
 
 Computed metric values keyed by `(CoreId, CoreTypeId, SynthId)`.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `CoreTypeId` | `INTEGER` | Core component identifier; joins to `CoreTypes.CoreTypeId`. |
@@ -2105,7 +2105,7 @@ Database table.
 
 Computed metric values keyed by `(CoreId, CoreTypeId, VfId, SynthId)`.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `CoreTypeId` | `INTEGER` | Core component identifier; joins to `CoreTypes.CoreTypeId`. |
@@ -2122,7 +2122,7 @@ Database view exported as CSV.
 Subcore synthetic values joined to metric names, parent names, and hierarchy levels. Scope flags
 remain in `VfPMUSynthTypes`.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `CoreTypeId` | `INTEGER` | Core component identifier; joins to `CoreTypes.CoreTypeId`. |
@@ -2142,7 +2142,7 @@ Database view exported as CSV.
 Per-VF synthetic values joined to metric names, parent names, and hierarchy levels. Scope flags
 remain in `VfPMUSynthTypes`.
 
-| Field | SQLite type | Meaning |
+| Field | SQLite Type | Meaning |
 | --- | --- | --- |
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `CoreTypeId` | `INTEGER` | Core component identifier; joins to `CoreTypes.CoreTypeId`. |
@@ -2166,14 +2166,14 @@ and the [PMU hint helpers](../../../npusim/prof/src/backend/hints/vf_pmu_hint_ut
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
 <!-- UI team: insert screenshots here using relative image links to figures/.
      Add captions that identify the UI elements covered by the mapping above. -->
 
-### 3.1.4. Non-fused FP instructions
+### 3.1.4. Non-Fused FP Instructions
 
 This hint is not currently available. No supported result dataset is documented for this rule.
 
@@ -2182,7 +2182,7 @@ This hint is not currently available. No supported result dataset is documented 
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -2198,7 +2198,7 @@ This hint is not currently available as the listed feature. CUBE pipeline metric
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
@@ -2214,7 +2214,7 @@ This hint is not currently available. An existing scalar IPC value or windowed I
 <!-- UI team: add one row per displayed element. Specify table/field names,
      joins or calculations, units, formatting, aggregation, and filters. -->
 
-| UI screen or element | Source table(s) | Source field(s) | Display rules | Screenshot reference(s) |
+| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
 | --- | --- | --- | --- | --- |
 | TBD | TBD | TBD | TBD | TBD |
 
