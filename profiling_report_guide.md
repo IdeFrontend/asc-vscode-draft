@@ -12,11 +12,9 @@ and are linked from the other features that use them. A table or view appears
 as a same-named CSV only when it has rows and can be queried. The manifest remains
 the authority for the exact schema and export status of a particular archive.
 
-For each UI element, fill in its source tables and fields, display rules
-(including units, formatting, aggregation, and filtering), and screenshot
-references. Add screenshots under `figures/` alongside this document and insert
-them into the corresponding section. UI templates are also reserved for features
-that are not currently available.
+Each feature has a placeholder for a UI description and screenshots, including
+which tables and fields are displayed. Store screenshots under `figures/`
+alongside this document and reference them from the corresponding section.
 
 ## Contents
 
@@ -377,17 +375,9 @@ Distinct instruction pipeline/type names represented in the dynamic stream.
 | --- | --- | --- |
 | `Name` | `VARCHAR(20)` | Instruction pipeline/type name from `InstrTypes`. |
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ## General Features
 
@@ -443,17 +433,9 @@ analysis.
 | `UbAccessType` | `INTEGER` | Access category code: 1 SIMT read, 2 SIMT write, 3 SIMD read, or 4 SIMD write in the current enumeration. |
 | `SimtDataCache` | `BOOLEAN` | Flag identifying the SIMT data-cache path, encoded as 0 or 1. |
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 3. AICore Utilization
 
@@ -485,17 +467,9 @@ this is not pipeline busy time.
 | `TickStart` | not declared | Start of the recorded interval, in simulator ticks. |
 | `TickEnd` | not declared | End of the recorded interval, in simulator ticks. |
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 4. Sub-Core Utilization
 
@@ -528,49 +502,25 @@ configured pipelines for AIC and three for AIV.
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `CoreTypeId` | `INTEGER` | Core component identifier; joins to `CoreTypes.CoreTypeId`. |
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 6. Speed-of-Light
 
 This feature is not currently available. No supported result dataset is documented for it.
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 7. Roofline
 
 This feature is not currently available.
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 11. Pipelines Utilization
 
@@ -620,17 +570,9 @@ Mean pipeline utilization across recorded core IDs, grouped by queue name and co
 | `CoreName` | `VARCHAR(20)` | Core component name from `CoreTypes`. |
 | `Utilization` | not declared | Arithmetic mean of `PipesUtilization.PipeUtilization`, in percent. |
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 1. Instruction Execution Timeline
 
@@ -1074,17 +1016,9 @@ decodes selected pre/post modes and retains defaults for unsupported legacy para
 | `DstUBMask` | `INTEGER` | Destination UB selection bitmask, with bit 0 for AIV0 and bit 1 for AIV1; currently written as 0 by this analyzer. |
 | `ProcessedBytes` | `INTEGER` | Output byte count from semantic parameters; defaults to 0 if absent. |
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 7. SIMD VF Pipelines
 
@@ -1102,17 +1036,9 @@ and start/end ticks. The interval from `ExecInstrTickStart` to
 
 [Timeline generation](../../../npusim/prof/src/frontend/tracing/chrome_tracing_default.py).
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 8. SIMD IPC
 
@@ -1220,17 +1146,9 @@ view construction.
 | `LdStIPC` | not declared | Load/store instruction IPC component, in instructions per cycle. |
 | `BranchIPC` | not declared | SIMT branch instruction IPC component, in instructions per cycle. |
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 9. SIMD Vector Utilization
 
@@ -1263,17 +1181,9 @@ based on semantic `processed_bytes`, and `ProcessedElements` is left NULL.
 | `ProcessedElements` | `INTEGER` | Processed element count when available; currently NULL in this analyzer. |
 | `VectorUtilization` | `REAL` | `ProcessedBytes / 256 * 100` in the current analyzer, expressed as a percentage of the default 256-byte vector length. |
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 10. SIMD Bank Conflicts (Scatter/Gather)
 
@@ -1332,17 +1242,9 @@ Per-instruction UB read/write bank-conflict results.
 | `ReadConflicts` | `INTEGER` | Recorded or derived UB bank-conflict count for reads. |
 | `WriteConflicts` | `INTEGER` | Recorded or derived UB bank-conflict count for writes. |
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 11. SIMD Stall Sampling
 
@@ -1401,17 +1303,9 @@ JSON stall-count aggregates for each static instruction address.
 | `SourceInstrAddr` | `INTEGER` | Static instruction address in bytes from the recorded execution stream; available even when source/disassembly tables are empty. |
 | `StallsJson` | `TEXT` | JSON object mapping SIMD stall reason names to aggregated recorded counts. |
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 17. MTE & Memory Utilization
 
@@ -1529,17 +1423,9 @@ BaseAddress + (CellRow * Width + CellCol) * CellSize
 For full coverage-counting and buffer-ownership rules, see the
 [memory heatmap format](../../../npusim/prof/docs/memory_heatmap_format.md).
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 18. Cube Utilization
 
@@ -1549,17 +1435,9 @@ CUBE pipeline busy time is represented by the CUBE rows in `PipesUtilization`.
 
 [Pipeline utilization analysis](../../../npusim/prof/src/backend/analyzers/david/pipe_utilization_analyzer.py).
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 20. Scalar/VF Bubble Analysis
 
@@ -1629,49 +1507,25 @@ core/component span, not the sum of all gap durations.
 | `TopBottleneck` | `TEXT` | Gap category with the greatest summed gap duration, when gaps exist. |
 | `SubtypeSummary` | `TEXT` | Comma-separated `subtype:count` entries sorted by descending count; this field is text, not JSON. |
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 15. Register Liveness
 
 This feature is not available in the current workflow without an object file. The register-liveness analyzer is not registered; `LiveRegisters` is not populated.
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 16. Call Stacks
 
 This feature is not available in the current workflow without source/disassembly data. A separately enabled call-stack analyzer can create a synthetic root and zero-valued root metrics, but this does not provide a usable call tree.
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 17. Cross-Instruction Bank Conflicts
 
@@ -1703,33 +1557,17 @@ Collector-provided cross-instruction UB bank-conflict records.
 | `CoreId` | `INTEGER` | Recorded core identifier; combine with `CoreTypeId` where that field is present. |
 | `CoreTypeId` | `INTEGER` | Core component identifier; joins to `CoreTypes.CoreTypeId`. |
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 18. Scalar Sampling
 
 This feature is not currently available. Scalar IPC calculations and instruction-cache events are separate datasets and should not be presented as scalar sampling.
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ## Performance Hints
 
@@ -1804,17 +1642,9 @@ Kernel hint messages with their rule ID; grouped by message ID by the current SQ
 | `HintTypeId` | `INTEGER` | Hint rule identifier; joins to `HintTypes.HintTypeId`. |
 | `HintMsgText` | `VARCHAR(500)` | Human-readable diagnostic or optimization suggestion. |
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 1.1. Small Grid
 
@@ -1833,33 +1663,17 @@ result table is created.
 
 [Implementation](../../../npusim/prof/src/backend/hints/small_grid_hint.py).
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 1.2. Launch Overhead
 
 This hint is not currently available. No dedicated launch-overhead result dataset is documented.
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 1.3. Tail Effect
 
@@ -1880,97 +1694,49 @@ created. This calculation is independent of source/debug mappings.
 
 [Implementation](../../../npusim/prof/src/backend/hints/tail_effect_inter_core_hint.py).
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 2.1.1. Inefficient Data Copy
 
 This hint is not available in the current workflow. DMA parameter and byte-count data remain available under Instruction Execution Timeline, but their presence does not produce this instruction/source hint without the missing aggregate inputs.
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 2.2.1. Inefficient GM Accesses
 
 This hint is not available in the current workflow. Available memory access records should not be presented as an emitted GM-access optimization finding.
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 2.2.2. UB Bank Conflicts
 
 This hint is not available in the current workflow. Bank-conflict data and an emitted performance hint are separate results.
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 2.3.1. SIMD UB Bank Conflicts
 
 This hint is not available in the current workflow. The related conflict tables are described under SIMD Bank Conflicts (Scatter/Gather).
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 3.1.1. Low SIMD Utilization
 
 This hint is not available in the current workflow. VectorUtilizations can contain data, but the instruction/source rule has no AsmMetrics rows to inspect.
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 3.1.2. Low SIMD IPC
 
@@ -1987,17 +1753,9 @@ tables and works without `AsmMetrics`. There is no dedicated low-IPC table.
 
 [Implementation](../../../npusim/prof/src/backend/hints/low_vec_ipc_hint.py).
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 3.1.3. VF PMU Based Hints
 
@@ -2205,62 +1963,30 @@ per-VF outliers. Exact formulas and thresholds are maintained in the
 [PMU metric definitions](../../../npusim/prof/src/backend/analyzers/vf_pmu/metrics.py)
 and the [PMU hint helpers](../../../npusim/prof/src/backend/hints/vf_pmu_hint_utils.py).
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 3.1.4. Non-Fused FP Instructions
 
 This hint is not currently available. No supported result dataset is documented for this rule.
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 3.3.1. Low MMAD Utilization
 
 This hint is not currently available as the listed feature. CUBE pipeline metrics and MmadParams do not by themselves constitute a Low MMAD Utilization finding.
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
 ### 3.4.1. Low Scalar IPC
 
 This hint is not currently available. An existing scalar IPC value or windowed IPC table is not an emitted Low Scalar IPC hint.
 
-#### UI Mapping and Screenshots
+#### UI and Screenshots
 
-<!-- UI team: add one row per displayed element. Specify table/field names,
-     joins or calculations, units, formatting, aggregation, and filters. -->
-
-| UI Screen or Element | Source Tables | Source Fields | Display Rules | Screenshot References |
-| --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD |
-
-<!-- UI team: insert screenshots here using relative image links to figures/.
-     Add captions that identify the UI elements covered by the mapping above. -->
+> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
