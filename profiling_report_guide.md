@@ -16,6 +16,8 @@ Each feature has a placeholder for a UI description and screenshots, including
 which tables and fields are displayed. Store screenshots under `figures/`
 alongside this document and reference them from the corresponding section.
 
+🚧 marks features and hints that are not available in the current workflow.
+
 ## Contents
 
 <!-- TOC -->
@@ -30,8 +32,8 @@ alongside this document and reference them from the corresponding section.
   - [1. Architecture Diagram](#1-architecture-diagram)
   - [3. AICore Utilization](#3-aicore-utilization)
   - [4. Sub-Core Utilization](#4-sub-core-utilization)
-  - [6. Speed-of-Light](#6-speed-of-light)
-  - [7. Roofline](#7-roofline)
+  - [6. Speed-of-Light 🚧](#6-speed-of-light-)
+  - [7. Roofline 🚧](#7-roofline-)
   - [11. Pipelines Utilization](#11-pipelines-utilization)
   - [1. Instruction Execution Timeline](#1-instruction-execution-timeline)
   - [7. SIMD VF Pipelines](#7-simd-vf-pipelines)
@@ -42,25 +44,25 @@ alongside this document and reference them from the corresponding section.
   - [17. MTE & Memory Utilization](#17-mte--memory-utilization)
   - [18. Cube Utilization](#18-cube-utilization)
   - [20. Scalar/VF Bubble Analysis](#20-scalarvf-bubble-analysis)
-  - [15. Register Liveness](#15-register-liveness)
-  - [16. Call Stacks](#16-call-stacks)
+  - [15. Register Liveness 🚧](#15-register-liveness-)
+  - [16. Call Stacks 🚧](#16-call-stacks-)
   - [17. Cross-Instruction Bank Conflicts](#17-cross-instruction-bank-conflicts)
-  - [18. Scalar Sampling](#18-scalar-sampling)
+  - [18. Scalar Sampling 🚧](#18-scalar-sampling-)
 - [Performance Hints](#performance-hints)
   - [Shared Hint Tables](#shared-hint-tables)
   - [1.1. Small Grid](#11-small-grid)
-  - [1.2. Launch Overhead](#12-launch-overhead)
+  - [1.2. Launch Overhead 🚧](#12-launch-overhead-)
   - [1.3. Tail Effect](#13-tail-effect)
-  - [2.1.1. Inefficient Data Copy](#211-inefficient-data-copy)
-  - [2.2.1. Inefficient GM Accesses](#221-inefficient-gm-accesses)
-  - [2.2.2. UB Bank Conflicts](#222-ub-bank-conflicts)
-  - [2.3.1. SIMD UB Bank Conflicts](#231-simd-ub-bank-conflicts)
-  - [3.1.1. Low SIMD Utilization](#311-low-simd-utilization)
+  - [2.1.1. Inefficient Data Copy 🚧](#211-inefficient-data-copy-)
+  - [2.2.1. Inefficient GM Accesses 🚧](#221-inefficient-gm-accesses-)
+  - [2.2.2. UB Bank Conflicts 🚧](#222-ub-bank-conflicts-)
+  - [2.3.1. SIMD UB Bank Conflicts 🚧](#231-simd-ub-bank-conflicts-)
+  - [3.1.1. Low SIMD Utilization 🚧](#311-low-simd-utilization-)
   - [3.1.2. Low SIMD IPC](#312-low-simd-ipc)
   - [3.1.3. VF PMU Based Hints](#313-vf-pmu-based-hints)
-  - [3.1.4. Non-Fused FP Instructions](#314-non-fused-fp-instructions)
-  - [3.3.1. Low MMAD Utilization](#331-low-mmad-utilization)
-  - [3.4.1. Low Scalar IPC](#341-low-scalar-ipc)
+  - [3.1.4. Non-Fused FP Instructions 🚧](#314-non-fused-fp-instructions-)
+  - [3.3.1. Low MMAD Utilization 🚧](#331-low-mmad-utilization-)
+  - [3.4.1. Low Scalar IPC 🚧](#341-low-scalar-ipc-)
 
 <!-- /TOC -->
 
@@ -506,7 +508,7 @@ configured pipelines for AIC and three for AIV.
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 6. Speed-of-Light
+### 6. Speed-of-Light 🚧
 
 This feature is not currently available. No supported result dataset is documented for it.
 
@@ -514,7 +516,7 @@ This feature is not currently available. No supported result dataset is document
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 7. Roofline
+### 7. Roofline 🚧
 
 This feature is not currently available.
 
@@ -1511,7 +1513,7 @@ core/component span, not the sum of all gap durations.
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 15. Register Liveness
+### 15. Register Liveness 🚧
 
 This feature is not available in the current workflow without an object file. The register-liveness analyzer is not registered; `LiveRegisters` is not populated.
 
@@ -1519,7 +1521,7 @@ This feature is not available in the current workflow without an object file. Th
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 16. Call Stacks
+### 16. Call Stacks 🚧
 
 This feature is not available in the current workflow without source/disassembly data. A separately enabled call-stack analyzer can create a synthetic root and zero-valued root metrics, but this does not provide a usable call tree.
 
@@ -1561,7 +1563,7 @@ Collector-provided cross-instruction UB bank-conflict records.
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 18. Scalar Sampling
+### 18. Scalar Sampling 🚧
 
 This feature is not currently available. Scalar IPC calculations and instruction-cache events are separate datasets and should not be presented as scalar sampling.
 
@@ -1667,7 +1669,7 @@ result table is created.
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 1.2. Launch Overhead
+### 1.2. Launch Overhead 🚧
 
 This hint is not currently available. No dedicated launch-overhead result dataset is documented.
 
@@ -1698,7 +1700,7 @@ created. This calculation is independent of source/debug mappings.
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 2.1.1. Inefficient Data Copy
+### 2.1.1. Inefficient Data Copy 🚧
 
 This hint is not available in the current workflow. DMA parameter and byte-count data remain available under Instruction Execution Timeline, but their presence does not produce this instruction/source hint without the missing aggregate inputs.
 
@@ -1706,7 +1708,7 @@ This hint is not available in the current workflow. DMA parameter and byte-count
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 2.2.1. Inefficient GM Accesses
+### 2.2.1. Inefficient GM Accesses 🚧
 
 This hint is not available in the current workflow. Available memory access records should not be presented as an emitted GM-access optimization finding.
 
@@ -1714,7 +1716,7 @@ This hint is not available in the current workflow. Available memory access reco
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 2.2.2. UB Bank Conflicts
+### 2.2.2. UB Bank Conflicts 🚧
 
 This hint is not available in the current workflow. Bank-conflict data and an emitted performance hint are separate results.
 
@@ -1722,7 +1724,7 @@ This hint is not available in the current workflow. Bank-conflict data and an em
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 2.3.1. SIMD UB Bank Conflicts
+### 2.3.1. SIMD UB Bank Conflicts 🚧
 
 This hint is not available in the current workflow. The related conflict tables are described under SIMD Bank Conflicts (Scatter/Gather).
 
@@ -1730,7 +1732,7 @@ This hint is not available in the current workflow. The related conflict tables 
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 3.1.1. Low SIMD Utilization
+### 3.1.1. Low SIMD Utilization 🚧
 
 This hint is not available in the current workflow. VectorUtilizations can contain data, but the instruction/source rule has no AsmMetrics rows to inspect.
 
@@ -1967,7 +1969,7 @@ and the [PMU hint helpers](../../../npusim/prof/src/backend/hints/vf_pmu_hint_ut
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 3.1.4. Non-Fused FP Instructions
+### 3.1.4. Non-Fused FP Instructions 🚧
 
 This hint is not currently available. No supported result dataset is documented for this rule.
 
@@ -1975,7 +1977,7 @@ This hint is not currently available. No supported result dataset is documented 
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 3.3.1. Low MMAD Utilization
+### 3.3.1. Low MMAD Utilization 🚧
 
 This hint is not currently available as the listed feature. CUBE pipeline metrics and MmadParams do not by themselves constitute a Low MMAD Utilization finding.
 
@@ -1983,7 +1985,7 @@ This hint is not currently available as the listed feature. CUBE pipeline metric
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 3.4.1. Low Scalar IPC
+### 3.4.1. Low Scalar IPC 🚧
 
 This hint is not currently available. An existing scalar IPC value or windowed IPC table is not an emitted Low Scalar IPC hint.
 
