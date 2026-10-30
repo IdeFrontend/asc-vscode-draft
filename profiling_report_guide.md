@@ -18,9 +18,53 @@ references. Add screenshots under `figures/` alongside this document and insert
 them into the corresponding section. UI templates are also reserved for features
 that are not currently available.
 
+## Contents
+
+<!-- TOC -->
+
 - [NPU Report Format](#npu-report-format)
+  - [Generate and Locate an Archive](#generate-and-locate-an-archive)
+  - [Understand the Payload](#understand-the-payload)
+  - [Read the Manifest and CSV Files](#read-the-manifest-and-csv-files)
+  - [Read the Binary Container](#read-the-binary-container)
+  - [Shared Metadata](#shared-metadata)
 - [General Features](#general-features)
+  - [1. Architecture Diagram](#1-architecture-diagram)
+  - [3. AICore Utilization](#3-aicore-utilization)
+  - [4. Sub-Core Utilization](#4-sub-core-utilization)
+  - [6. Speed-of-Light](#6-speed-of-light)
+  - [7. Roofline](#7-roofline)
+  - [11. Pipelines Utilization](#11-pipelines-utilization)
+  - [1. Instruction Execution Timeline](#1-instruction-execution-timeline)
+  - [7. SIMD VF Pipelines](#7-simd-vf-pipelines)
+  - [8. SIMD IPC](#8-simd-ipc)
+  - [9. SIMD Vector Utilization](#9-simd-vector-utilization)
+  - [10. SIMD Bank Conflicts (Scatter/Gather)](#10-simd-bank-conflicts-scattergather)
+  - [11. SIMD Stall Sampling](#11-simd-stall-sampling)
+  - [17. MTE & Memory Utilization](#17-mte--memory-utilization)
+  - [18. Cube Utilization](#18-cube-utilization)
+  - [20. Scalar/VF Bubble Analysis](#20-scalarvf-bubble-analysis)
+  - [15. Register Liveness](#15-register-liveness)
+  - [16. Call Stacks](#16-call-stacks)
+  - [17. Cross-Instruction Bank Conflicts](#17-cross-instruction-bank-conflicts)
+  - [18. Scalar Sampling](#18-scalar-sampling)
 - [Performance Hints](#performance-hints)
+  - [Shared Hint Tables](#shared-hint-tables)
+  - [1.1. Small Grid](#11-small-grid)
+  - [1.2. Launch Overhead](#12-launch-overhead)
+  - [1.3. Tail Effect](#13-tail-effect)
+  - [2.1.1. Inefficient Data Copy](#211-inefficient-data-copy)
+  - [2.2.1. Inefficient GM Accesses](#221-inefficient-gm-accesses)
+  - [2.2.2. UB Bank Conflicts](#222-ub-bank-conflicts)
+  - [2.3.1. SIMD UB Bank Conflicts](#231-simd-ub-bank-conflicts)
+  - [3.1.1. Low SIMD Utilization](#311-low-simd-utilization)
+  - [3.1.2. Low SIMD IPC](#312-low-simd-ipc)
+  - [3.1.3. VF PMU Based Hints](#313-vf-pmu-based-hints)
+  - [3.1.4. Non-Fused FP Instructions](#314-non-fused-fp-instructions)
+  - [3.3.1. Low MMAD Utilization](#331-low-mmad-utilization)
+  - [3.4.1. Low Scalar IPC](#341-low-scalar-ipc)
+
+<!-- /TOC -->
 
 ## NPU Report Format
 
