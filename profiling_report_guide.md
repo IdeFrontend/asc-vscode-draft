@@ -16,7 +16,13 @@ Each feature has a placeholder for a UI description and screenshots, including
 which tables and fields are displayed. Store screenshots under `figures/`
 alongside this document and reference them from the corresponding section.
 
-🚧 marks features and hints that are not available in the current workflow.
+Status markers describe feature availability in the current workflow:
+
+- ✅ Fully available
+- 🟡 Partially available: data without visualization, limited outputs, or verification pending
+- 🚧 Not available
+
+These markers describe the features, rather than completion of their UI documentation.
 
 ## Contents
 
@@ -29,37 +35,37 @@ alongside this document and reference them from the corresponding section.
   - [Read the Binary Container](#read-the-binary-container)
   - [Shared Metadata](#shared-metadata)
 - [General Features](#general-features)
-  - [1. Architecture Diagram](#1-architecture-diagram)
-  - [3. AICore Utilization](#3-aicore-utilization)
-  - [4. Sub-Core Utilization](#4-sub-core-utilization)
+  - [1. Architecture Diagram ✅](#1-architecture-diagram-)
+  - [3. AICore Utilization 🟡](#3-aicore-utilization-)
+  - [4. Sub-Core Utilization 🟡](#4-sub-core-utilization-)
   - [6. Speed-of-Light 🚧](#6-speed-of-light-)
   - [7. Roofline 🚧](#7-roofline-)
-  - [11. Pipelines Utilization](#11-pipelines-utilization)
-  - [1. Instruction Execution Timeline](#1-instruction-execution-timeline)
-  - [7. SIMD VF Pipelines](#7-simd-vf-pipelines)
-  - [8. SIMD IPC](#8-simd-ipc)
-  - [9. SIMD Vector Utilization](#9-simd-vector-utilization)
-  - [10. SIMD Bank Conflicts (Scatter/Gather)](#10-simd-bank-conflicts-scattergather)
-  - [11. SIMD Stall Sampling](#11-simd-stall-sampling)
-  - [17. MTE & Memory Utilization](#17-mte--memory-utilization)
-  - [18. Cube Utilization](#18-cube-utilization)
-  - [20. Scalar/VF Bubble Analysis](#20-scalarvf-bubble-analysis)
+  - [11. Pipelines Utilization ✅](#11-pipelines-utilization-)
+  - [1. Instruction Execution Timeline ✅](#1-instruction-execution-timeline-)
+  - [7. SIMD VF Pipelines ✅](#7-simd-vf-pipelines-)
+  - [8. SIMD IPC ✅](#8-simd-ipc-)
+  - [9. SIMD Vector Utilization ✅](#9-simd-vector-utilization-)
+  - [10. SIMD Bank Conflicts (Scatter/Gather) 🟡](#10-simd-bank-conflicts-scattergather-)
+  - [11. SIMD Stall Sampling 🟡](#11-simd-stall-sampling-)
+  - [17. MTE & Memory Utilization 🟡](#17-mte--memory-utilization-)
+  - [18. Cube Utilization ✅](#18-cube-utilization-)
+  - [20. Scalar/VF Bubble Analysis 🟡](#20-scalarvf-bubble-analysis-)
   - [15. Register Liveness 🚧](#15-register-liveness-)
   - [16. Call Stacks 🚧](#16-call-stacks-)
-  - [17. Cross-Instruction Bank Conflicts](#17-cross-instruction-bank-conflicts)
+  - [17. Cross-Instruction Bank Conflicts 🟡](#17-cross-instruction-bank-conflicts-)
   - [18. Scalar Sampling 🚧](#18-scalar-sampling-)
 - [Performance Hints](#performance-hints)
   - [Shared Hint Tables](#shared-hint-tables)
-  - [1.1. Small Grid](#11-small-grid)
+  - [1.1. Small Grid ✅](#11-small-grid-)
   - [1.2. Launch Overhead 🚧](#12-launch-overhead-)
-  - [1.3. Tail Effect](#13-tail-effect)
+  - [1.3. Tail Effect ✅](#13-tail-effect-)
   - [2.1.1. Inefficient Data Copy 🚧](#211-inefficient-data-copy-)
   - [2.2.1. Inefficient GM Accesses 🚧](#221-inefficient-gm-accesses-)
   - [2.2.2. UB Bank Conflicts 🚧](#222-ub-bank-conflicts-)
   - [2.3.1. SIMD UB Bank Conflicts 🚧](#231-simd-ub-bank-conflicts-)
   - [3.1.1. Low SIMD Utilization 🚧](#311-low-simd-utilization-)
-  - [3.1.2. Low SIMD IPC](#312-low-simd-ipc)
-  - [3.1.3. VF PMU Based Hints](#313-vf-pmu-based-hints)
+  - [3.1.2. Low SIMD IPC ✅](#312-low-simd-ipc-)
+  - [3.1.3. VF PMU Based Hints 🟡](#313-vf-pmu-based-hints-)
   - [3.1.4. Non-Fused FP Instructions 🚧](#314-non-fused-fp-instructions-)
   - [3.3.1. Low MMAD Utilization 🚧](#331-low-mmad-utilization-)
   - [3.4.1. Low Scalar IPC 🚧](#341-low-scalar-ipc-)
@@ -383,7 +389,7 @@ Distinct instruction pipeline/type names represented in the dynamic stream.
 
 ## General Features
 
-### 1. Architecture Diagram
+### 1. Architecture Diagram ✅
 
 The architecture diagram summarizes data movement between compute and memory
 components. The data comes from transfer analysis, matrix/fixpipe parameters,
@@ -439,7 +445,7 @@ analysis.
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 3. AICore Utilization
+### 3. AICore Utilization 🟡
 
 Data is available; visualization is not currently available.
 
@@ -473,7 +479,7 @@ this is not pipeline busy time.
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 4. Sub-Core Utilization
+### 4. Sub-Core Utilization 🟡
 
 Data is available; visualization is not currently available.
 
@@ -524,7 +530,7 @@ This feature is not currently available.
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 11. Pipelines Utilization
+### 11. Pipelines Utilization ✅
 
 `PipesUtilization` describes busy time per core, component, and instruction
 queue. The analyzer merges selected instruction intervals and divides the union
@@ -576,7 +582,7 @@ Mean pipeline utilization across recorded core IDs, grouped by queue name and co
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 1. Instruction Execution Timeline
+### 1. Instruction Execution Timeline ✅
 
 The instruction timeline is built from the dynamic execution stream. Main
 trace files are named `core_<id>_tracing_report_<chunk>.json` inside the archive.
@@ -1022,7 +1028,7 @@ decodes selected pre/post modes and retains defaults for unsupported legacy para
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 7. SIMD VF Pipelines
+### 7. SIMD VF Pipelines ✅
 
 Under the current convention, SIMD VF pipelines group instructions whose
 `ExecInstrName` begins with `VF` on the `PUSHQ` pipeline. These records come from
@@ -1042,7 +1048,7 @@ and start/end ticks. The interval from `ExecInstrTickStart` to
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 8. SIMD IPC
+### 8. SIMD IPC ✅
 
 Enable the VF IPC analyzers with `--vec-ipc`. The ordinary single-chip
 `npusim report` path supplies this backend flag. SIMD has scalar, execution,
@@ -1152,7 +1158,7 @@ view construction.
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 9. SIMD Vector Utilization
+### 9. SIMD Vector Utilization ✅
 
 For supported vector instructions, `VectorUtilizations` uses the semantic
 `processed_bytes` value in `ExecutedInstructions.ExtendParams`. The current
@@ -1187,7 +1193,7 @@ based on semantic `processed_bytes`, and `ProcessedElements` is left NULL.
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 10. SIMD Bank Conflicts (Scatter/Gather)
+### 10. SIMD Bank Conflicts (Scatter/Gather) 🟡
 
 Data is available; visualization is not currently available.
 
@@ -1248,7 +1254,7 @@ Per-instruction UB read/write bank-conflict results.
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 11. SIMD Stall Sampling
+### 11. SIMD Stall Sampling 🟡
 
 Data is available; visualization is not currently available.
 
@@ -1309,7 +1315,7 @@ JSON stall-count aggregates for each static instruction address.
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 17. MTE & Memory Utilization
+### 17. MTE & Memory Utilization 🟡
 
 Data is available; visualization is not currently available.
 
@@ -1429,7 +1435,7 @@ For full coverage-counting and buffer-ownership rules, see the
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 18. Cube Utilization
+### 18. Cube Utilization ✅
 
 CUBE pipeline busy time is represented by the CUBE rows in `PipesUtilization`.
 
@@ -1441,12 +1447,12 @@ CUBE pipeline busy time is represented by the CUBE rows in `PipesUtilization`.
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 20. Scalar/VF Bubble Analysis
+### 20. Scalar/VF Bubble Analysis 🟡
 
 The current code implements this path without an object file. Enable it with
 `--bubble`; its analyzers use `ExecutedInstructions` and available
 `ICacheEvents`. This describes the implementation and its input requirements,
-not a new runtime verification.
+not a new runtime verification. End-to-end report and UI verification is pending.
 
 The selected main pipeline is CUBE for AIC and VECTOR for vector components.
 The analyzer finds gaps in that pipeline and uses scalar, memory, synchronization,
@@ -1529,7 +1535,7 @@ This feature is not available in the current workflow without source/disassembly
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 17. Cross-Instruction Bank Conflicts
+### 17. Cross-Instruction Bank Conflicts 🟡
 
 Data is available; visualization is not currently available.
 
@@ -1648,7 +1654,7 @@ Kernel hint messages with their rule ID; grouped by message ID by the current SQ
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 1.1. Small Grid
+### 1.1. Small Grid ✅
 
 This kernel-level rule counts distinct physical core IDs in
 `ExecutedInstructions` and compares the count with the configured architecture
@@ -1677,7 +1683,7 @@ This hint is not currently available. No dedicated launch-overhead result datase
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 1.3. Tail Effect
+### 1.3. Tail Effect ✅
 
 Two kernel-level rules compare recorded execution spans:
 
@@ -1740,7 +1746,7 @@ This hint is not available in the current workflow. VectorUtilizations can conta
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 3.1.2. Low SIMD IPC
+### 3.1.2. Low SIMD IPC ✅
 
 This kernel-level rule reads `VfIPC.ExecIPC`. It takes the arithmetic mean of
 available call-level values, rounds it to four decimal places, and emits a hint
@@ -1759,7 +1765,7 @@ tables and works without `AsmMetrics`. There is no dedicated low-IPC table.
 
 > TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
 
-### 3.1.3. VF PMU Based Hints
+### 3.1.3. VF PMU Based Hints 🟡
 
 VF PMU hints use synthetic counters computed from collected VF PMU snapshots.
 Enable synthetic analysis with `--simd-perf`; the collection must already contain
