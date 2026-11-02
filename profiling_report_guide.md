@@ -51,7 +51,7 @@ These markers describe the features, rather than completion of their UI document
   - [11. SIMD Stall Sampling 🟡](#11-simd-stall-sampling-)
   - [17. MTE & Memory Utilization ✅](#17-mte--memory-utilization-)
   - [18. Cube Utilization ✅](#18-cube-utilization-)
-  - [20. Scalar/VF Bubble Analysis 🟡](#20-scalarvf-bubble-analysis-)
+  - [20. Scalar/VF Bubble Analysis ✅](#20-scalarvf-bubble-analysis-)
   - [15. Register Liveness 🔴](#15-register-liveness-)
   - [16. Call Stacks 🔴](#16-call-stacks-)
   - [17. Cross-Instruction Bank Conflicts 🟡](#17-cross-instruction-bank-conflicts-)
@@ -1518,7 +1518,7 @@ not use Compute `summary.jsonl` cube ratios).
 
 ![Cube utilization in compute load analysis](figures/cube-utilization.png)
 
-### 20. Scalar/VF Bubble Analysis 🟡
+### 20. Scalar/VF Bubble Analysis ✅
 
 The current code implements this path without an object file. Enable it with
 `--bubble`; its analyzers use `ExecutedInstructions` and available
@@ -1588,7 +1588,15 @@ core/component span, not the sum of all gap durations.
 
 **UI and Screenshots**
 
-> UI not available yet.
+When `--bubble` populates the report, bubble intervals appear as ordinary
+duration events on dedicated swimlane lanes (for example `AIC_BUBBLES`,
+`AIV0_BUBBLES`, `AIV1_BUBBLES`). Selecting a `BUBBLE` event opens the bottom
+**Details** dock; Parameter shows producer fields such as `main_pipeline`,
+`sub_type`, `category`, `reason`, `optimizable`, `optimization_hint`,
+`tick_start`, and `tick_end` (the Chrome Trace form of `TraceBubbles`).
+
+![Scalar/VF bubble analysis on the timeline](figures/bubble-analysis.png)
+
 
 ### 15. Register Liveness 🔴
 
