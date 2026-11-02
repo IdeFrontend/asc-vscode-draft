@@ -12,9 +12,11 @@ and are linked from the other features that use them. A table or view appears
 as a same-named CSV only when it has rows and can be queried. The manifest remains
 the authority for the exact schema and export status of a particular archive.
 
-Each feature has a placeholder for a UI description and screenshots, including
-which tables and fields are displayed. Store screenshots under `figures/`
-alongside this document and reference them from the corresponding section.
+Each feature has a UI description and screenshots where the Ascend profiling
+report viewer exposes the feature, including which tables and fields are
+displayed. Features without a corresponding UI note that the UI is not available
+yet. Store screenshots under `figures/` alongside this document and reference
+them from the corresponding section. Screenshots are taken from the English locale of the report viewer demo.
 
 Status markers describe feature availability in the current workflow:
 
@@ -42,12 +44,12 @@ These markers describe the features, rather than completion of their UI document
   - [7. Roofline 🔴](#7-roofline-)
   - [11. Pipelines Utilization ✅](#11-pipelines-utilization-)
   - [1. Instruction Execution Timeline ✅](#1-instruction-execution-timeline-)
-  - [7. SIMD VF Pipelines ✅](#7-simd-vf-pipelines-)
-  - [8. SIMD IPC ✅](#8-simd-ipc-)
-  - [9. SIMD Vector Utilization ✅](#9-simd-vector-utilization-)
+  - [7. SIMD VF Pipelines 🟡](#7-simd-vf-pipelines-)
+  - [8. SIMD IPC 🟡](#8-simd-ipc-)
+  - [9. SIMD Vector Utilization 🟡](#9-simd-vector-utilization-)
   - [10. SIMD Bank Conflicts (Scatter/Gather) 🟡](#10-simd-bank-conflicts-scattergather-)
   - [11. SIMD Stall Sampling 🟡](#11-simd-stall-sampling-)
-  - [17. MTE & Memory Utilization 🟡](#17-mte--memory-utilization-)
+  - [17. MTE & Memory Utilization ✅](#17-mte--memory-utilization-)
   - [18. Cube Utilization ✅](#18-cube-utilization-)
   - [20. Scalar/VF Bubble Analysis 🟡](#20-scalarvf-bubble-analysis-)
   - [15. Register Liveness 🔴](#15-register-liveness-)
@@ -56,16 +58,16 @@ These markers describe the features, rather than completion of their UI document
   - [18. Scalar Sampling 🔴](#18-scalar-sampling-)
 - [Performance Hints](#performance-hints)
   - [Shared Hint Tables](#shared-hint-tables)
-  - [1.1. Small Grid ✅](#11-small-grid-)
+  - [1.1. Small Grid 🟡](#11-small-grid-)
   - [1.2. Launch Overhead 🔴](#12-launch-overhead-)
-  - [1.3. Tail Effect ✅](#13-tail-effect-)
+  - [1.3. Tail Effect 🟡](#13-tail-effect-)
   - [2.1.1. Inefficient Data Copy 🔴](#211-inefficient-data-copy-)
   - [2.2.1. Inefficient GM Accesses 🔴](#221-inefficient-gm-accesses-)
   - [2.2.2. UB Bank Conflicts 🔴](#222-ub-bank-conflicts-)
   - [2.3.1. SIMD UB Bank Conflicts 🔴](#231-simd-ub-bank-conflicts-)
   - [3.1.1. Low SIMD Utilization 🔴](#311-low-simd-utilization-)
-  - [3.1.2. Low SIMD IPC ✅](#312-low-simd-ipc-)
-  - [3.1.3. VF PMU Based Hints ✅](#313-vf-pmu-based-hints-)
+  - [3.1.2. Low SIMD IPC 🟡](#312-low-simd-ipc-)
+  - [3.1.3. VF PMU Based Hints 🟡](#313-vf-pmu-based-hints-)
   - [3.1.4. Non-Fused FP Instructions 🔴](#314-non-fused-fp-instructions-)
   - [3.3.1. Low MMAD Utilization 🔴](#331-low-mmad-utilization-)
   - [3.4.1. Low Scalar IPC 🔴](#341-low-scalar-ipc-)
@@ -385,7 +387,7 @@ Distinct instruction pipeline/type names represented in the dynamic stream.
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ## General Features
 
@@ -443,11 +445,18 @@ analysis.
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+The Ascend profiling report viewer shows architecture-level data movement in the
+**Memory load analysis** topology diagram in the report aside (including
+**Full screen**). Edge labels use bandwidth and related metrics from the report
+CSVs / `summary.jsonl` (for example `PipeUtilization` and memory category
+fields). Supporting per-instruction UB traffic in `UbRwStatistics` is not drawn
+as a separate overlay in the current UI.
+
+![Memory load topology diagram](figures/memory-topology.png)
+
+![Memory topology fullscreen](figures/memory-topology-fullscreen.png)
 
 ### 3. AICore Utilization 🟡
-
-Data is available; visualization is not currently available.
 
 `AiCoreOccupancy` gives the first-to-last instruction interval for each recorded
 core component. Gaps within the interval are included. The associated
@@ -477,11 +486,14 @@ this is not pipeline busy time.
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+Report-statistics summary cards (total time, bandwidth, compute TFLOPS, AICore
+parallel utilization) appear in Compute-oriented report packs, not in the current
+Emulate (NPUSim-style) surface. Emulate timelines still show lane gutter
+utilization bars and optional sampling overview tracks.
+
+> UI not available yet.
 
 ### 4. Sub-Core Utilization 🟡
-
-Data is available; visualization is not currently available.
 
 `UnitUtilization` records changes in simultaneous pipeline activity. `Util` is
 a fraction: the number of distinct active pipeline types divided by the number
@@ -512,7 +524,11 @@ configured pipelines for AIC and three for AIV.
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+There is no dedicated Sub-Core / `UnitUtilization` chart yet. Per-pipe busy
+fractions and overview counter tracks appear in the timeline lane gutter and
+sampling overview strip.
+
+![Lane utilization and overview tracks](figures/lane-utilization.png)
 
 ### 6. Speed-of-Light 🔴
 
@@ -520,15 +536,17 @@ This feature is not currently available. No supported result dataset is document
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ### 7. Roofline 🔴
 
-This feature is not currently available.
+This feature is not currently available in the Emulate (NPUSim-style) report
+surface. A Roofline chart can appear in Compute-oriented report packs when the
+archive supplies the required arithmetic-intensity points.
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ### 11. Pipelines Utilization ✅
 
@@ -580,7 +598,14 @@ Mean pipeline utilization across recorded core IDs, grouped by queue name and co
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+**Compute load analysis** in the report aside shows PIPE occupancy bars (Vector,
+MTE2, MTE3, Scalar, and related queues) from `PipeUtilization` /
+`summary.jsonl`. **Details** opens searchable CSV field lists for
+`PipeUtilization`, `ArithmeticUtilization`, and `ResourceConflictRatio`.
+
+![Compute load analysis](figures/pipelines-compute-load.png)
+
+![PipeUtilization field details](figures/pipelines-compute-details.png)
 
 ### 1. Instruction Execution Timeline ✅
 
@@ -1026,9 +1051,15 @@ decodes selected pre/post modes and retains defaults for unsupported legacy para
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+The primary UI is the swimlane **Timeline**: hierarchical lanes (process / core /
+pipe), colored duration events from the Chrome-style trace payload, time axis,
+search, zoom / fit, and optional measure mode. Selecting an event opens the
+bottom detail dock (name, start, duration, end). Overview counter tracks appear
+when sampling counters exist.
 
-### 7. SIMD VF Pipelines ✅
+![Instruction execution timeline](figures/timeline.png)
+
+### 7. SIMD VF Pipelines 🟡
 
 Under the current convention, SIMD VF pipelines group instructions whose
 `ExecInstrName` begins with `VF` on the `PUSHQ` pipeline. These records come from
@@ -1046,9 +1077,9 @@ and start/end ticks. The interval from `ExecInstrTickStart` to
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
-### 8. SIMD IPC ✅
+### 8. SIMD IPC 🟡
 
 Enable the VF IPC analyzers with `--vec-ipc`. The ordinary single-chip
 `npusim report` path supplies this backend flag. SIMD has scalar, execution,
@@ -1156,9 +1187,9 @@ view construction.
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
-### 9. SIMD Vector Utilization ✅
+### 9. SIMD Vector Utilization 🟡
 
 For supported vector instructions, `VectorUtilizations` uses the semantic
 `processed_bytes` value in `ExecutedInstructions.ExtendParams`. The current
@@ -1191,7 +1222,7 @@ based on semantic `processed_bytes`, and `ProcessedElements` is left NULL.
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ### 10. SIMD Bank Conflicts (Scatter/Gather) 🟡
 
@@ -1252,7 +1283,7 @@ Per-instruction UB read/write bank-conflict results.
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ### 11. SIMD Stall Sampling 🟡
 
@@ -1313,11 +1344,9 @@ JSON stall-count aggregates for each static instruction address.
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
-### 17. MTE & Memory Utilization 🟡
-
-Data is available; visualization is not currently available.
+### 17. MTE & Memory Utilization ✅
 
 `MemoryRWAccesses` contains collected memory events, including optional access
 sizes and strides. With `--memory-utilization`, two analyses produce derived data:
@@ -1433,7 +1462,23 @@ For full coverage-counting and buffer-ownership rules, see the
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+Emulate Memory load analysis provides:
+
+1. The **Memory load analysis** topology diagram (bandwidth-labeled edges).
+2. **Full screen** topology overlay, which includes buffer allocation heatmaps
+   (L1 / UB / L0A / L0B / L0C) with allocated-with-data vs allocated-no-data
+   cells, plus capacity totals.
+3. **Details** panels with CSV field lists for Memory L0 / L1 / L2Cache / UB
+   (and related tabs), including block selection.
+
+The NPUSim `MemoryHeatmapCells` address-coverage grid is a separate analyzer
+artifact; the Emulate UI heatmap is the topology fullscreen allocation view.
+
+![Memory topology](figures/memory-topology.png)
+
+![Memory topology fullscreen with heatmap](figures/memory-topology-fullscreen.png)
+
+![Memory CSV details](figures/memory-csv-details.png)
 
 ### 18. Cube Utilization ✅
 
@@ -1445,7 +1490,12 @@ CUBE pipeline busy time is represented by the CUBE rows in `PipesUtilization`.
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+Cube utilization uses the same **Compute load analysis** PIPE surface as
+Pipelines Utilization. On MIX operators the aside exposes a Cube | Vector
+toggle; Cube-side bars and ratios come from cube-related `PipeUtilization`
+fields (for example `aic_cube_ratio`).
+
+![Cube utilization in compute load analysis](figures/cube-utilization.png)
 
 ### 20. Scalar/VF Bubble Analysis 🟡
 
@@ -1517,7 +1567,7 @@ core/component span, not the sum of all gap durations.
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ### 15. Register Liveness 🔴
 
@@ -1525,7 +1575,7 @@ This feature is not available in the current workflow without an object file. Th
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ### 16. Call Stacks 🔴
 
@@ -1533,7 +1583,7 @@ This feature is not available in the current workflow without source/disassembly
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ### 17. Cross-Instruction Bank Conflicts 🟡
 
@@ -1567,7 +1617,7 @@ Collector-provided cross-instruction UB bank-conflict records.
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ### 18. Scalar Sampling 🔴
 
@@ -1575,7 +1625,7 @@ This feature is not currently available. Scalar IPC calculations and instruction
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ## Performance Hints
 
@@ -1652,9 +1702,9 @@ Kernel hint messages with their rule ID; grouped by message ID by the current SQ
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
-### 1.1. Small Grid ✅
+### 1.1. Small Grid 🟡
 
 This kernel-level rule counts distinct physical core IDs in
 `ExecutedInstructions` and compares the count with the configured architecture
@@ -1673,7 +1723,7 @@ result table is created.
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ### 1.2. Launch Overhead 🔴
 
@@ -1681,9 +1731,9 @@ This hint is not currently available. No dedicated launch-overhead result datase
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
-### 1.3. Tail Effect ✅
+### 1.3. Tail Effect 🟡
 
 Two kernel-level rules compare recorded execution spans:
 
@@ -1704,7 +1754,7 @@ created. This calculation is independent of source/debug mappings.
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ### 2.1.1. Inefficient Data Copy 🔴
 
@@ -1712,7 +1762,7 @@ This hint is not available in the current workflow. DMA parameter and byte-count
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ### 2.2.1. Inefficient GM Accesses 🔴
 
@@ -1720,7 +1770,7 @@ This hint is not available in the current workflow. Available memory access reco
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ### 2.2.2. UB Bank Conflicts 🔴
 
@@ -1728,7 +1778,7 @@ This hint is not available in the current workflow. Bank-conflict data and an em
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ### 2.3.1. SIMD UB Bank Conflicts 🔴
 
@@ -1736,7 +1786,7 @@ This hint is not available in the current workflow. The related conflict tables 
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ### 3.1.1. Low SIMD Utilization 🔴
 
@@ -1744,9 +1794,9 @@ This hint is not available in the current workflow. VectorUtilizations can conta
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
-### 3.1.2. Low SIMD IPC ✅
+### 3.1.2. Low SIMD IPC 🟡
 
 This kernel-level rule reads `VfIPC.ExecIPC`. It takes the arithmetic mean of
 available call-level values, rounds it to four decimal places, and emits a hint
@@ -1763,9 +1813,9 @@ tables and works without `AsmMetrics`. There is no dedicated low-IPC table.
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
-### 3.1.3. VF PMU Based Hints ✅
+### 3.1.3. VF PMU Based Hints 🟡
 
 This feature covers kernel-level hints based on synthetic counters computed
 from collected VF PMU snapshots. Enable synthetic analysis with `--simd-perf`; the collection must already contain
@@ -1971,7 +2021,7 @@ and the [PMU hint helpers](../../../npusim/prof/src/backend/hints/vf_pmu_hint_ut
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ### 3.1.4. Non-Fused FP Instructions 🔴
 
@@ -1979,7 +2029,7 @@ This hint is not currently available. No supported result dataset is documented 
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ### 3.3.1. Low MMAD Utilization 🔴
 
@@ -1987,7 +2037,7 @@ This hint is not currently available as the listed feature. CUBE pipeline metric
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
 
 ### 3.4.1. Low Scalar IPC 🔴
 
@@ -1995,4 +2045,4 @@ This hint is not currently available. An existing scalar IPC value or windowed I
 
 **UI and Screenshots**
 
-> TODO: Describe the UI, specify the displayed tables and fields, and add screenshots.
+> UI not available yet.
