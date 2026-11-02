@@ -44,9 +44,9 @@ These markers describe the features, rather than completion of their UI document
   - [7. Roofline 🔴](#7-roofline-)
   - [11. Pipelines Utilization ✅](#11-pipelines-utilization-)
   - [1. Instruction Execution Timeline ✅](#1-instruction-execution-timeline-)
-  - [7. SIMD VF Pipelines 🟡](#7-simd-vf-pipelines-)
-  - [8. SIMD IPC 🟡](#8-simd-ipc-)
-  - [9. SIMD Vector Utilization 🟡](#9-simd-vector-utilization-)
+  - [7. SIMD VF Pipelines ✅](#7-simd-vf-pipelines-)
+  - [8. SIMD IPC ✅](#8-simd-ipc-)
+  - [9. SIMD Vector Utilization ✅](#9-simd-vector-utilization-)
   - [10. SIMD Bank Conflicts (Scatter/Gather) 🟡](#10-simd-bank-conflicts-scattergather-)
   - [11. SIMD Stall Sampling 🟡](#11-simd-stall-sampling-)
   - [17. MTE & Memory Utilization ✅](#17-mte--memory-utilization-)
@@ -58,16 +58,16 @@ These markers describe the features, rather than completion of their UI document
   - [18. Scalar Sampling 🔴](#18-scalar-sampling-)
 - [Performance Hints](#performance-hints)
   - [Shared Hint Tables](#shared-hint-tables)
-  - [1.1. Small Grid 🟡](#11-small-grid-)
+  - [1.1. Small Grid ✅](#11-small-grid-)
   - [1.2. Launch Overhead 🔴](#12-launch-overhead-)
-  - [1.3. Tail Effect 🟡](#13-tail-effect-)
+  - [1.3. Tail Effect ✅](#13-tail-effect-)
   - [2.1.1. Inefficient Data Copy 🔴](#211-inefficient-data-copy-)
   - [2.2.1. Inefficient GM Accesses 🔴](#221-inefficient-gm-accesses-)
   - [2.2.2. UB Bank Conflicts 🔴](#222-ub-bank-conflicts-)
   - [2.3.1. SIMD UB Bank Conflicts 🔴](#231-simd-ub-bank-conflicts-)
   - [3.1.1. Low SIMD Utilization 🔴](#311-low-simd-utilization-)
-  - [3.1.2. Low SIMD IPC 🟡](#312-low-simd-ipc-)
-  - [3.1.3. VF PMU Based Hints 🟡](#313-vf-pmu-based-hints-)
+  - [3.1.2. Low SIMD IPC ✅](#312-low-simd-ipc-)
+  - [3.1.3. VF PMU Based Hints ✅](#313-vf-pmu-based-hints-)
   - [3.1.4. Non-Fused FP Instructions 🔴](#314-non-fused-fp-instructions-)
   - [3.3.1. Low MMAD Utilization 🔴](#331-low-mmad-utilization-)
   - [3.4.1. Low Scalar IPC 🔴](#341-low-scalar-ipc-)
@@ -447,10 +447,10 @@ analysis.
 
 The Ascend profiling report viewer shows architecture-level data movement in the
 **Memory load analysis** topology diagram in the report aside (including
-**Full screen**). Edge labels use bandwidth and related metrics from the report
-CSVs / `summary.jsonl` (for example `PipeUtilization` and memory category
-fields). Supporting per-instruction UB traffic in `UbRwStatistics` is not drawn
-as a separate overlay in the current UI.
+**Full screen**). Edge labels and plated metrics come from `ArchDiagramMetrics`
+(for example `_gbs` bandwidth paths and related named parameters). Supporting
+per-instruction UB traffic in `UbRwStatistics` is not drawn as a separate
+overlay in the current UI.
 
 ![Memory load topology diagram](figures/memory-topology.png)
 
@@ -598,14 +598,15 @@ Mean pipeline utilization across recorded core IDs, grouped by queue name and co
 
 **UI and Screenshots**
 
-**Compute load analysis** in the report aside shows PIPE occupancy bars (Vector,
-MTE2, MTE3, Scalar, and related queues) from `PipeUtilization` /
-`summary.jsonl`. **Details** opens searchable CSV field lists for
-`PipeUtilization`, `ArithmeticUtilization`, and `ResourceConflictRatio`.
+**Compute load analysis** in the report aside shows PIPE occupancy bars grouped
+by Emulate sides **aic / aiv0 / aiv1** from `PipeUtilizationHist` when present
+(preferred), otherwise `PipesUtilization`. **Details** opens a searchable CSV
+field list for the active PIPE table (`PipeUtilizationHist` or
+`PipesUtilization`).
 
 ![Compute load analysis](figures/pipelines-compute-load.png)
 
-![PipeUtilization field details](figures/pipelines-compute-details.png)
+![PIPE field details](figures/pipelines-compute-details.png)
 
 ### 1. Instruction Execution Timeline ✅
 
@@ -1059,7 +1060,7 @@ when sampling counters exist.
 
 ![Instruction execution timeline](figures/timeline.png)
 
-### 7. SIMD VF Pipelines 🟡
+### 7. SIMD VF Pipelines ✅
 
 Under the current convention, SIMD VF pipelines group instructions whose
 `ExecInstrName` begins with `VF` on the `PUSHQ` pipeline. These records come from
@@ -1077,9 +1078,14 @@ and start/end ticks. The interval from `ExecInstrTickStart` to
 
 **UI and Screenshots**
 
-> UI not available yet.
+VF and related vector instructions appear as ordinary duration events on the
+swimlane **Timeline** (typically on PUSHQ / vector execution lanes). Selecting
+an event opens the bottom **Details** dock; Parameter shows the producer
+`args` keys for that instruction.
 
-### 8. SIMD IPC 🟡
+![SIMD VF pipelines on the timeline](figures/simd-vf-pipelines.png)
+
+### 8. SIMD IPC ✅
 
 Enable the VF IPC analyzers with `--vec-ipc`. The ordinary single-chip
 `npusim report` path supplies this backend flag. SIMD has scalar, execution,
@@ -1187,9 +1193,16 @@ view construction.
 
 **UI and Screenshots**
 
-> UI not available yet.
+Per-instruction IPC components stamped on Chrome Trace events are shown in the
+bottom **Details → Parameter** list when an instruction is selected:
+`scalar_ipc`, `exec_ipc`, and `load_store_ipc` (keys appear only when the
+producer attached them). These are the same conceptual IPC components as
+`VfIPC` / `VfIPCInside`; the Emulate viewer does not mount a separate VF IPC
+chart from those CSVs.
 
-### 9. SIMD Vector Utilization 🟡
+![SIMD IPC in event Details](figures/simd-ipc-details.png)
+
+### 9. SIMD Vector Utilization ✅
 
 For supported vector instructions, `VectorUtilizations` uses the semantic
 `processed_bytes` value in `ExecutedInstructions.ExtendParams`. The current
@@ -1222,7 +1235,13 @@ based on semantic `processed_bytes`, and `ProcessedElements` is left NULL.
 
 **UI and Screenshots**
 
-> UI not available yet.
+For supported vector load/store instructions, the producer stamps
+`vector_utilization` and often `processed_bytes` on the Chrome Trace event.
+Selecting such an event (for example `RV_VLD` / `RV_VST`) shows those fields in
+**Details → Parameter**. There is no separate Vector Utilization chart; the
+`VectorUtilizations` CSV remains a Roofline/analysis input.
+
+![SIMD vector utilization in event Details](figures/simd-vector-utilization-details.png)
 
 ### 10. SIMD Bank Conflicts (Scatter/Gather) 🟡
 
@@ -1464,15 +1483,17 @@ For full coverage-counting and buffer-ownership rules, see the
 
 Emulate Memory load analysis provides:
 
-1. The **Memory load analysis** topology diagram (bandwidth-labeled edges).
-2. **Full screen** topology overlay, which includes buffer allocation heatmaps
-   (L1 / UB / L0A / L0B / L0C) with allocated-with-data vs allocated-no-data
-   cells, plus capacity totals.
-3. **Details** panels with CSV field lists for Memory L0 / L1 / L2Cache / UB
-   (and related tabs), including block selection.
+1. The **Memory load analysis** topology diagram (bandwidth-labeled edges from
+   `ArchDiagramMetrics`).
+2. **Full screen** topology overlay with a **Memory Utilization Heatmap** built
+   from `MemoryHeatmapLayout` + `MemoryHeatmapCells` (tabs L1 / UB / L0A /
+   L0B / L0C only — no L2 heat tab). Cell paint is **address coverage**:
+   `withData` when read+write counts are greater than zero; capacity chips show
+   Total / Used / Free when the producer supplies them.
+3. **Details** on the topology surface open searchable CSV field lists for
+   `ArchDiagramMetrics` (not Compute Memory L0/L1/L2/UB detail CSVs).
 
-The NPUSim `MemoryHeatmapCells` address-coverage grid is a separate analyzer
-artifact; the Emulate UI heatmap is the topology fullscreen allocation view.
+`MemoryUtilizationStates` is not the lattice source for this Emulate heatmap.
 
 ![Memory topology](figures/memory-topology.png)
 
@@ -1491,9 +1512,9 @@ CUBE pipeline busy time is represented by the CUBE rows in `PipesUtilization`.
 **UI and Screenshots**
 
 Cube utilization uses the same **Compute load analysis** PIPE surface as
-Pipelines Utilization. On MIX operators the aside exposes a Cube | Vector
-toggle; Cube-side bars and ratios come from cube-related `PipeUtilization`
-fields (for example `aic_cube_ratio`).
+Pipelines Utilization. CUBE queue busy fractions come from the CUBE rows in
+`PipeUtilizationHist` / `PipesUtilization` on the **aic** side (Emulate does
+not use Compute `summary.jsonl` cube ratios).
 
 ![Cube utilization in compute load analysis](figures/cube-utilization.png)
 
@@ -1702,9 +1723,15 @@ Kernel hint messages with their rule ID; grouped by message ID by the current SQ
 
 **UI and Screenshots**
 
-> UI not available yet.
+Emitted kernel, instruction, and source-line hints appear in the Ascend report
+viewer **Performance hints** dock (性能提示). Rows join `HintTypes`,
+`HintMessages`, and the attachment tables (`KernelHints`, `InstructionHints`,
+`SourceLineHints`). Individual hint rules below share this surface; a rule is
+available in the UI whenever it emits a joined row.
 
-### 1.1. Small Grid 🟡
+![Performance hints dock](figures/performance-hints.png)
+
+### 1.1. Small Grid ✅
 
 This kernel-level rule counts distinct physical core IDs in
 `ExecutedInstructions` and compares the count with the configured architecture
@@ -1723,7 +1750,9 @@ result table is created.
 
 **UI and Screenshots**
 
-> UI not available yet.
+When the Small Grid rule emits a kernel hint, its message appears in the shared **Performance hints** dock described above.
+
+![Performance hints dock](figures/performance-hints.png)
 
 ### 1.2. Launch Overhead 🔴
 
@@ -1733,7 +1762,7 @@ This hint is not currently available. No dedicated launch-overhead result datase
 
 > UI not available yet.
 
-### 1.3. Tail Effect 🟡
+### 1.3. Tail Effect ✅
 
 Two kernel-level rules compare recorded execution spans:
 
@@ -1754,7 +1783,9 @@ created. This calculation is independent of source/debug mappings.
 
 **UI and Screenshots**
 
-> UI not available yet.
+When an inter-core or intra-core Tail Effect rule emits a kernel hint, its message appears in the shared **Performance hints** dock described above.
+
+![Performance hints dock](figures/performance-hints.png)
 
 ### 2.1.1. Inefficient Data Copy 🔴
 
@@ -1796,7 +1827,7 @@ This hint is not available in the current workflow. VectorUtilizations can conta
 
 > UI not available yet.
 
-### 3.1.2. Low SIMD IPC 🟡
+### 3.1.2. Low SIMD IPC ✅
 
 This kernel-level rule reads `VfIPC.ExecIPC`. It takes the arithmetic mean of
 available call-level values, rounds it to four decimal places, and emits a hint
@@ -1813,9 +1844,11 @@ tables and works without `AsmMetrics`. There is no dedicated low-IPC table.
 
 **UI and Screenshots**
 
-> UI not available yet.
+When the Low SIMD IPC rule emits a kernel hint (from `VfIPC.ExecIPC`), its message appears in the shared **Performance hints** dock described above.
 
-### 3.1.3. VF PMU Based Hints 🟡
+![Performance hints dock](figures/performance-hints.png)
+
+### 3.1.3. VF PMU Based Hints ✅
 
 This feature covers kernel-level hints based on synthetic counters computed
 from collected VF PMU snapshots. Enable synthetic analysis with `--simd-perf`; the collection must already contain
@@ -2021,7 +2054,9 @@ and the [PMU hint helpers](../../../npusim/prof/src/backend/hints/vf_pmu_hint_ut
 
 **UI and Screenshots**
 
-> UI not available yet.
+When VF PMU–based kernel rules emit hints, their messages appear in the shared **Performance hints** dock described above.
+
+![Performance hints dock](figures/performance-hints.png)
 
 ### 3.1.4. Non-Fused FP Instructions 🔴
 
